@@ -38,6 +38,18 @@ function initTabletBoards(root = document) {
       expectedSequence = [];
     }
 
+    let autoHints = [];
+    try {
+      autoHints = JSON.parse(board.getAttribute("data-hints") || "[]");
+      if (!Array.isArray(autoHints)) {
+        autoHints = [];
+      }
+    } catch {
+      autoHints = [];
+    }
+    let errorCount = 0;
+    let autoHintIndex = 0;
+
     const hotspots = Array.from(board.querySelectorAll(".hotspot[data-token]"));
     const tokenMeta = new Map(
       hotspots.map((spot) => [
@@ -143,6 +155,15 @@ function initTabletBoards(root = document) {
       syncAnswerPreview();
       setFeedback(message, kind);
       syncHotspotLocks();
+
+      // Animación shake en la vista previa cuando hay error
+      if (kind === "error" && previewNode) {
+        previewNode.classList.remove("answer-error");
+        void previewNode.offsetWidth; // forzar reflow
+        previewNode.classList.add("answer-error");
+        previewNode.addEventListener("animationend", () => previewNode.classList.remove("answer-error"), { once: true });
+      }
+
       if (targetInput.type !== "hidden") {
         targetInput.focus();
       }
@@ -164,7 +185,14 @@ function initTabletBoards(root = document) {
       const currentAt = (parts[at] || "").toLowerCase();
 
       if (expectedAt !== currentAt) {
+        errorCount += 1;
         resetSequence("Orden de símbolo incorrecto. Secuencia reiniciada.", "error");
+        if (errorCount >= 3 && autoHints.length > 0) {
+          const hintText = autoHints[Math.min(autoHintIndex, autoHints.length - 1)];
+          setFeedback(`Pista automática: ${hintText}`, "info");
+          autoHintIndex = Math.min(autoHintIndex + 1, autoHints.length - 1);
+          errorCount = 0;
+        }
         return;
       }
 
@@ -282,6 +310,15 @@ function replaceAppRegions(nextDocument) {
   currentAlerts.replaceWith(nextAlerts);
   currentMain.replaceWith(nextMain);
   document.title = nextDocument.title;
+
+  // Animación de entrada en el contenido principal
+  const newMain = document.getElementById("app-main");
+  if (newMain) {
+    newMain.classList.remove("page-entering");
+    void newMain.offsetWidth; // forzar reflow
+    newMain.classList.add("page-entering");
+    newMain.addEventListener("animationend", () => newMain.classList.remove("page-entering"), { once: true });
+  }
 }
 
 function isInternalLink(link) {
@@ -305,18 +342,46 @@ function isInternalLink(link) {
   return true;
 }
 
+function getNavLoader() {
+  return document.getElementById("nav-loading");
+}
+
+function showNavLoader() {
+  const bar = getNavLoader();
+  if (!bar) { return; }
+  bar.classList.remove("is-done");
+  bar.classList.add("is-loading");
+}
+
+function hideNavLoader() {
+  const bar = getNavLoader();
+  if (!bar) { return; }
+  bar.classList.remove("is-loading");
+  bar.classList.add("is-done");
+  bar.addEventListener("transitionend", () => bar.classList.remove("is-done"), { once: true });
+}
+
 async function navigateTo(url, options = {}) {
-  const response = await fetch(url, {
-    method: options.method || "GET",
-    body: options.body,
-    credentials: "same-origin",
-    redirect: "follow",
-    headers: {
-      "X-Requested-With": "fetch",
-    },
-  });
+  showNavLoader();
+  let response;
+  try {
+    response = await fetch(url, {
+      method: options.method || "GET",
+      body: options.body,
+      credentials: "same-origin",
+      redirect: "follow",
+      headers: {
+        "X-Requested-With": "fetch",
+      },
+    });
+  } catch {
+    hideNavLoader();
+    window.location.assign(url);
+    return;
+  }
 
   if (!response.ok) {
+    hideNavLoader();
     window.location.assign(url);
     return;
   }
@@ -326,6 +391,7 @@ async function navigateTo(url, options = {}) {
   const nextDocument = parser.parseFromString(html, "text/html");
   replaceAppRegions(nextDocument);
   initPage(document);
+  hideNavLoader();
 
   if (options.pushState !== false) {
     window.history.pushState({ url: response.url }, "", response.url);

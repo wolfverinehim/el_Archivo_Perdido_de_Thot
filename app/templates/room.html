@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="layout">
+<section class="layout" data-room="{{ room_code }}">
   <article class="panel room">
+
+    {% if room.narrative %}
+    <div class="narrative-intro">
+      <span class="narrative-glyph" aria-hidden="true">𓂀</span>
+      <p>{{ room.narrative }}</p>
+    </div>
+    {% endif %}
+
     <h2>{{ room.title }}</h2>
-    <p>{{ room.description }}</p>
+    <p class="room-description">{{ room.description }}</p>
 
     {% if room.tablet_image %}
       <figure class="tablet-figure">
-        <img src="{{ url_for('static', filename=room.tablet_image) }}" alt="{{ room.tablet_alt or 'Symbol tablet' }}" class="tablet-image">
+        <img src="{{ url_for('static', filename=room.tablet_image) }}" alt="{{ room.tablet_alt or 'Tablilla de referencia' }}" class="tablet-image">
         <figcaption>Tablilla de referencia para esta sala.</figcaption>
       </figure>
     {% endif %}
@@ -21,38 +29,50 @@
     </ul>
 
     {% if room.puzzle_code %}
-      <a class="button" href="{{ url_for('game.puzzle', puzzle_code=room.puzzle_code) }}">Abrir Enigma</a>
+      <a class="button" href="{{ url_for('game.puzzle', puzzle_code=room.puzzle_code) }}">Abrir Enigma &rarr;</a>
     {% endif %}
 
     {% if room.links %}
       <h3>Caminos</h3>
-      <div class="button-row">
+      <div class="room-nav-grid">
         {% for link in room.links %}
           {% if link.code in unlocked %}
-            <a class="button secondary" href="{{ url_for('game.room', room_code=link.code) }}">{{ link.label }}</a>
+            <a class="room-nav-card" href="{{ url_for('game.room', room_code=link.code) }}">
+              <span class="room-nav-label">{{ link.label }}</span>
+              <span class="room-nav-action">Entrar &rarr;</span>
+            </a>
+          {% else %}
+            <div class="room-nav-card room-nav-card--locked" aria-label="{{ link.label }}, bloqueada">
+              <span class="room-nav-label">{{ link.label }}</span>
+              <small class="room-nav-locked-tag">Bloqueada</small>
+            </div>
           {% endif %}
         {% endfor %}
       </div>
     {% endif %}
 
     {% if victory %}
-      <div class="victory">¡Misión completada! El motor del conocimiento está activo.</div>
+      <div class="victory">
+        <p class="victory-glyph" aria-hidden="true">☥ 𓇳 𓏠 ☥</p>
+        <p class="victory-title">¡El Archivo Perdido de Thot ha despertado!</p>
+        <p class="victory-text">Has descifrado los mensajes del dios ibis y has devuelto el conocimiento eterno al mundo. El Archivo está abierto de nuevo.</p>
+      </div>
     {% endif %}
   </article>
 
   <aside class="panel inventory">
     <h3>Inventario</h3>
     {% if inventory %}
-      <ul>
+      <ul class="inventory-list">
         {% for item in inventory %}
-          <li>
-            <strong>{{ item.name }}</strong>
-            <p>{{ item.description }}</p>
+          <li class="inventory-item">
+            <strong class="item-name">{{ item.name }}</strong>
+            <p class="item-desc">{{ item.description }}</p>
           </li>
         {% endfor %}
       </ul>
     {% else %}
-      <p>Aún no tienes objetos.</p>
+      <p class="inventory-empty">Aún no tienes ningún objeto. Resuelve los enigmas para obtenerlos.</p>
     {% endif %}
   </aside>
 </section>

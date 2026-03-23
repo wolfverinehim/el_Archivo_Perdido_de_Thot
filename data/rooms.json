@@ -1,13 +1,14 @@
 {
   "archives": {
     "title": "Gran Sala del Archivo",
-    "description": "La cámara principal alberga la tablilla original con los símbolos que guían toda la misión.",
+    "narrative": "Llevas años buscando este lugar. La Gran Sala del Archivo de Thot se extiende ante ti: columnas de papiro reseco, paredes cubiertas de jeroglíficos y, en el centro, la legendaria tablilla que preserva el saber de los dioses. El dios ibis te ha dejado un mensaje cifrado entre los símbolos. Solo quien sepa leer el lenguaje divino podrá continuar hacia las cámaras más profundas.",
+    "description": "La cámara principal alberga la tablilla original de Thot. Sus jeroglíficos forman la primera lección: aprende el alfabeto de los dioses antes de adentrarte más.",
     "tablet_image": "img/tablilla.jpeg",
     "tablet_alt": "Tablilla de jeroglíficos con grupos de símbolos que sirven de referencia.",
     "clues": [
-      "Usa la tablilla como diccionario para todos los símbolos.",
-      "Algunas marcas se repiten con ligeras variantes; compara las filas con atención.",
-      "Tu primera traducción abrirá la cámara ritual."
+      "Estudia cada símbolo de la tablilla: cada glifo tiene un nombre y un significado.",
+      "La primera secuencia sagrada comienza con el signo de la vida.",
+      "Compón la frase correcta con los glifos para desbloquear la Cámara Ritual."
     ],
     "puzzle_code": "glyph_translator",
     "links": [
@@ -19,13 +20,14 @@
   },
   "ritual": {
     "title": "Cámara Ritual",
-    "description": "Los obeliscos reflejan símbolos tallados en los márgenes de la tablilla.",
+    "narrative": "El fragmento de tablilla que llevas contigo vibra al cruzar el umbral de piedra. La Cámara Ritual estaba sellada desde la época de los grandes faraones. Sus obeliscos graban en roca el orden sagrado de los ritos solares. En la oscilante luz de las antorchas, Thot te habla desde las paredes: «El orden correcto despierta a los dioses dormidos; el orden incorrecto los enfurece sin remedio.»",
+    "description": "Los obeliscos de la Cámara Ritual reflejan la secuencia solar que debes recitar. Aquí no hay guía: el conocimiento que has adquirido debe bastarte.",
     "tablet_image": "img/tablilla.jpeg",
     "tablet_alt": "Una lectura atenta de la tablilla ayuda a resolver el orden ritual.",
     "clues": [
-      "Lee los símbolos en secuencia de izquierda a derecha.",
-      "El orden comienza con el glifo del sol.",
-      "La secuencia correcta te entregará una llave de piedra."
+      "Esta sala no perdona los errores: recuerda lo que aprendiste en el Archivo.",
+      "El disco solar es el primer símbolo de todo rito de invocación.",
+      "La secuencia correcta te entregará la Llave de Piedra para el Santuario."
     ],
     "puzzle_code": "ritual_sequence",
     "links": [
@@ -41,13 +43,14 @@
   },
   "sanctum": {
     "title": "Santuario Final",
-    "description": "El altar final pide el mensaje completo extraído de todas las notas de la tablilla.",
+    "narrative": "Te detienes en el umbral del Santuario Final. El aire huele a mirra y a tiempo detenido. La Llave de Piedra encaja en el altar con un sonido sordo y ancestral que resuena en todo el complejo. Todo el conocimiento de Thot converge en este instante. En la tablilla central, tallada en oro puro, aparece la última secuencia sagrada: cuatro símbolos que forman el mensaje eterno del dios del saber. Solo quien los comprenda de verdad podrá despertar el Archivo.",
+    "description": "El altar final aguarda la secuencia definitiva. Combina lo aprendido en el Archivo y en la Cámara Ritual para componer el mensaje eterno de Thot.",
     "tablet_image": "img/tablilla.jpeg",
-    "tablet_alt": "Revisión final de la tablilla antes de introducir la frase de victoria.",
+    "tablet_alt": "Revisión final de la tablilla antes de componer la secuencia de victoria.",
     "clues": [
-      "Reconstruye la frase combinando las pistas de cada enigma resuelto.",
-      "La respuesta final tiene cuatro palabras.",
-      "Revisa la tablilla antes de confirmar el último input."
+      "Cuatro símbolos forman el mensaje final. Están todos en la tablilla.",
+      "Piensa en los elementos que permanecen más allá de la vida y del rito.",
+      "El orden es: aquello que perdura, lo que se conserva, lo que late, y la luz que lo ilumina."
     ],
     "puzzle_code": "final_message",
     "links": [

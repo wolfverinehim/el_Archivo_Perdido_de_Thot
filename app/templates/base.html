@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
+  <div id="nav-loading" role="progressbar" aria-hidden="true"></div>
   <audio id="bg-music" loop preload="auto" playsinline>
     <source src="{{ url_for('static', filename='audio/egypt_theme.mp3') }}" type="audio/mpeg">
   </audio>
@@ -149,11 +150,13 @@
       });
 
       nativeControls.addEventListener('play', function () {
-        audio.pause();
-        playing = false;
-        localStorage.setItem(musicEnabledKey, 'false');
-        setStatus('reproduciendo desde el control nativo.', 'ok');
-        label.textContent = 'Reproduciendo con controles nativos';
+        if (!Number.isNaN(nativeControls.currentTime) && nativeControls.currentTime > 0) {
+          audio.currentTime = nativeControls.currentTime;
+        }
+        nativeControls.pause();
+        localStorage.setItem(musicEnabledKey, 'true');
+        startMusic();
+        setStatus('reproduciendo y persistiendo entre pantallas.', 'ok');
       });
 
       nativeControls.addEventListener('pause', function () {

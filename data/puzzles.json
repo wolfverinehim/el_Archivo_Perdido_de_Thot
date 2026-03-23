@@ -166,22 +166,85 @@
     }
   },
   "final_message": {
-    "title": "Mensaje Final",
-    "prompt": "Reconstruye el mensaje a partir de tus pistas.",
-    "hint": "knowledge lives through memory",
+    "title": "El Mensaje Eterno de Thot",
+    "prompt": "Cuatro símbolos tallados en oro aguardan tu interpretación. Compón la secuencia definitiva que despertará el Archivo Perdido de Thot.",
+    "tablet_image": "img/tablilla.jpeg",
+    "tablet_alt": "Tablilla final con los cuatro símbolos sagrados del mensaje eterno.",
+    "strict_sequence": true,
+    "sequence_mode": "hard",
+    "expected_sequence": ["stone", "memory", "life", "sun"],
+    "hotspots": [
+      {
+        "label": "Piedra",
+        "glyph": "𓊖",
+        "token": "stone",
+        "hint": "Lo que perdura eternamente, inmutable como el granito.",
+        "x": 25,
+        "y": 63
+      },
+      {
+        "label": "Memoria",
+        "glyph": "𓏠",
+        "token": "memory",
+        "hint": "Lo que se conserva en la mente y en los papiros.",
+        "x": 55,
+        "y": 65
+      },
+      {
+        "label": "Vida",
+        "glyph": "☥",
+        "token": "life",
+        "hint": "El latido que anima todo lo creado.",
+        "x": 14,
+        "y": 20
+      },
+      {
+        "label": "Sol",
+        "glyph": "𓇳",
+        "token": "sun",
+        "hint": "La luz eterna que ilumina el saber.",
+        "x": 81,
+        "y": 34
+      },
+      {
+        "label": "Junco",
+        "glyph": "𓇋",
+        "token": "reed",
+        "hint": "El junco pertenece a otros mensajes, no al eterno.",
+        "x": 30,
+        "y": 24
+      },
+      {
+        "label": "Búho",
+        "glyph": "𓅓",
+        "token": "owl",
+        "hint": "El sabio búho ya cumplió su papel en ritos anteriores.",
+        "x": 48,
+        "y": 28
+      },
+      {
+        "label": "Agua",
+        "glyph": "𓈖",
+        "token": "water",
+        "hint": "El agua fluyó en los ritos pasados, no en el último.",
+        "x": 64,
+        "y": 31
+      }
+    ],
+    "hint": "La secuencia tiene cuatro símbolos: empieza por lo que es inmutable.",
     "hints": [
-      "Tiene exactamente cuatro palabras.",
-      "La segunda palabra es lives.",
-      "knowledge lives through memory"
+      "El primer símbolo es la Piedra: aquello que nunca cambia.",
+      "Piedra, luego Memoria: juntos guardan el saber de los siglos.",
+      "La secuencia completa es: Piedra, Memoria, Vida, Sol."
     ],
     "hint_penalty": 10,
-    "expected_answer": "knowledge lives through memory",
+    "expected_answer": "stone memory life sun",
     "progress": 35,
     "victory": true,
     "reward": {
       "code": "thot_archive",
       "name": "Sello del Archivo",
-      "description": "Prueba de que el motor del conocimiento fue restaurado."
+      "description": "El sello dorado que prueba que el Archivo Perdido de Thot fue despertado una vez más."
     }
   }
 }

@@ -92,6 +92,7 @@ def room(room_code):
 def puzzle(puzzle_code):
     savegame, redirect_response = _ensure_savegame_or_redirect()
     if redirect_response:
+        flash("Primero inicia o continúa una partida para acceder a este enigma.", "warning")
         return redirect_response
 
     puzzle_data = get_puzzle(puzzle_code)

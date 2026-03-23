@@ -5,6 +5,11 @@
   <article class="panel">
     <h2>{{ puzzle.title }}</h2>
     <p>{{ puzzle.prompt }}</p>
+    {% if puzzle.strict_sequence and puzzle.expected_sequence %}
+      <p class="sequence-note">
+        Objetivo: compón una secuencia de {{ puzzle.expected_sequence | length }} símbolos y pulsa "Validar" para resolver el enigma.
+      </p>
+    {% endif %}
     <p class="hint">Pista: {{ puzzle.hint }}</p>
 
     {% if puzzle.tablet_image and puzzle.hotspots %}
@@ -14,6 +19,7 @@
         data-strict-sequence="{{ 'true' if puzzle.strict_sequence else 'false' }}"
         data-expected-sequence='{{ (puzzle.expected_sequence or []) | tojson }}'
         data-sequence-mode="{{ puzzle.sequence_mode or 'guided' }}"
+        data-hints='{{ (puzzle.hints or []) | tojson }}'
       >
         <div class="tablet-stage">
           <img
