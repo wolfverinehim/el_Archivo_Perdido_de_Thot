@@ -25,4 +25,13 @@
     </form>
   </article>
 </section>
+
+<section class="panel">
+  <h3>Diccionario de glifos (data/glyphs.json)</h3>
+  <form method="post" action="{{ url_for('admin.save_glyphs_content') }}" class="stack">
+    <label for="glyphs_json">JSON de glifos</label>
+    <textarea id="glyphs_json" name="glyphs_json" rows="18" spellcheck="false">{{ glyphs_json }}</textarea>
+    <button type="submit">Guardar Diccionario de Glifos</button>
+  </form>
+</section>
 {% endblock %}

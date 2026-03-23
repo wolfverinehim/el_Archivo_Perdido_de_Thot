@@ -112,3 +112,9 @@ def test_ritual_puzzle_renders_hard_mode_and_spot_hints(client):
     assert response.status_code == 200
     assert b'data-sequence-mode="hard"' in response.data
     assert b"data-spot-hint" in response.data
+
+
+def test_glyphs_compendium_route_loads(client):
+    response = client.get("/glyphs")
+    assert response.status_code == 200
+    assert "Compendio de Glifos" in response.data.decode("utf-8")

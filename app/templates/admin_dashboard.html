@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="panel">
+  <h2>Panel de Administracion</h2>
+  <p>Desde aqui puedes ver el estado de la partida activa, revisar eventos y editar contenido del juego.</p>
+</section>
+
+<section class="layout editor-layout">
+  <article class="panel">
+    <h3>Partida activa</h3>
+    {% if dashboard.player %}
+      <p><strong>Jugador:</strong> {{ dashboard.player.name }} (ID {{ dashboard.player.id }})</p>
+      <p><strong>Sala actual:</strong> {{ dashboard.savegame.current_room }}</p>
+      <p><strong>Progreso:</strong> {{ dashboard.savegame.progress_pct }}%</p>
+      <p><strong>Inventario activo:</strong> {{ dashboard.inventory|length }} objetos</p>
+      <form method="post" action="{{ url_for('admin.reset_active_game') }}" class="stack">
+        <button type="submit">Resetear partida activa</button>
+      </form>
+    {% else %}
+      <p>No hay una partida activa en esta sesion.</p>
+    {% endif %}
+
+    <a class="button secondary" href="{{ url_for('admin.content_editor') }}">Ir al Editor de Contenido</a>
+  </article>
+
+  <article class="panel">
+    <h3>Progreso de enigmas</h3>
+    {% if dashboard.puzzles %}
+      <ul class="admin-list">
+        {% for puzzle in dashboard.puzzles %}
+          <li>
+            <strong>{{ puzzle.code }}</strong>
+            <p>Resuelto: {{ 'si' if puzzle.solved else 'no' }} · Intentos: {{ puzzle.attempts }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Aun no hay enigmas registrados para este jugador.</p>
+    {% endif %}
+  </article>
+</section>
+
+<section class="panel">
+  <h3>Eventos recientes</h3>
+  {% if dashboard.events %}
+    <ul class="admin-list">
+      {% for event in dashboard.events %}
+        <li>
+          <strong>{{ event.type }}</strong>
+          <p>{{ event.detail }}</p>
+          <small>{{ event.timestamp }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No hay eventos registrados en esta sesion.</p>
+  {% endif %}
+</section>
+{% endblock %}

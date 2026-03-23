@@ -1,0 +1,85 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="ritualLight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffda7a;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#4a2010;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="ritualFloor" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5a4a30;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3a2a10;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Fondo iluminado -->
+  <rect width="800" height="400" fill="url(#ritualFloor)"/>
+  <ellipse cx="400" cy="200" rx="350" ry="250" fill="url(#ritualLight)"/>
+  
+  <!-- Altar central -->
+  <rect x="300" y="180" width="200" height="120" fill="#8b6f47" stroke="#5a4a2a" stroke-width="4" rx="5"/>
+  <rect x="310" y="170" width="180" height="25" fill="#a0826d" stroke="#5a4a2a" stroke-width="2"/>
+  
+  <!-- Ojo de Ra en el altar -->
+  <circle cx="400" cy="210" r="25" fill="#d4af37" opacity="0.9"/>
+  <circle cx="400" cy="210" r="20" fill="#6b5a3f"/>
+  <circle cx="400" cy="210" r="12" fill="#d4af37"/>
+  <circle cx="405" cy="205" r="4" fill="#2f2010"/>
+  
+  <!-- Vasijas ceremoniales -->
+  <g opacity="0.8">
+    <!-- Vasija izquierda -->
+    <path d="M 180 280 L 170 250 L 175 150 L 190 140 L 200 150 L 210 280 Z" fill="#a97a56" stroke="#6b5a3f" stroke-width="2"/>
+    <ellipse cx="190" cy="140" rx="10" ry="8" fill="#8b6a4a" stroke="#6b5a3f" stroke-width="1"/>
+    
+    <!-- Vasija derecha -->
+    <path d="M 620 280 L 610 250 L 615 150 L 630 140 L 640 150 L 650 280 Z" fill="#a97a56" stroke="#6b5a3f" stroke-width="2"/>
+    <ellipse cx="630" cy="140" rx="10" ry="8" fill="#8b6a4a" stroke="#6b5a3f" stroke-width="1"/>
+  </g>
+  
+  <!-- Estatuas (perfiles) -->
+  <g opacity="0.7">
+    <!-- Estatua izquierda (Anubis simplificado) -->
+    <rect x="80" y="200" width="50" height="100" fill="#7a6a5a" stroke="#5a4a3a" stroke-width="2" rx="3"/>
+    <circle cx="105" cy="190" r="18" fill="#8b7a6a" stroke="#5a4a3a" stroke-width="2"/>
+    <polygon points="105,170 100,160 110,160" fill="#8b7a6a" stroke="#5a4a3a" stroke-width="1"/>
+    
+    <!-- Estatua derecha (Thot simplificado) -->
+    <rect x="670" y="200" width="50" height="100" fill="#7a6a5a" stroke="#5a4a3a" stroke-width="2" rx="3"/>
+    <circle cx="695" cy="190" r="18" fill="#8b7a6a" stroke="#5a4a3a" stroke-width="2"/>
+    <polygon points="695,170 690,160 700,160" fill="#8b7a6a" stroke="#5a4a3a" stroke-width="1"/>
+  </g>
+  
+  <!-- Velas rituales alrededor del altar -->
+  <g opacity="0.9">
+    <!-- Vela superior izquierda -->
+    <circle cx="250" cy="120" r="10" fill="#be6f4a" stroke="#6b4a2a" stroke-width="1"/>
+    <rect x="247" y="105" width="6" height="15" fill="#ffe4b5"/>
+    <ellipse cx="250" cy="103" rx="4" ry="3" fill="#ff9900"/>
+    
+    <!-- Vela superior derecha -->
+    <circle cx="550" cy="120" r="10" fill="#be6f4a" stroke="#6b4a2a" stroke-width="1"/>
+    <rect x="547" y="105" width="6" height="15" fill="#ffe4b5"/>
+    <ellipse cx="550" cy="103" rx="4" ry="3" fill="#ff9900"/>
+    
+    <!-- Vela inferior izquierda -->
+    <circle cx="280" cy="340" r="10" fill="#be6f4a" stroke="#6b4a2a" stroke-width="1"/>
+    <rect x="277" y="325" width="6" height="15" fill="#ffe4b5"/>
+    <ellipse cx="280" cy="323" rx="4" ry="3" fill="#ff9900"/>
+    
+    <!-- Vela inferior derecha -->
+    <circle cx="520" cy="340" r="10" fill="#be6f4a" stroke="#6b4a2a" stroke-width="1"/>
+    <rect x="517" y="325" width="6" height="15" fill="#ffe4b5"/>
+    <ellipse cx="520" cy="323" rx="4" ry="3" fill="#ff9900"/>
+  </g>
+  
+  <!-- Incenso en el altar -->
+  <g opacity="0.6">
+    <path d="M 400 160 Q 395 140 400 120 Q 405 140 400 160" stroke="#ccaa88" stroke-width="2" fill="none"/>
+    <path d="M 400 160 Q 395 140 400 120 Q 405 140 400 160" stroke="#ffe4a0" stroke-width="1" fill="none" opacity="0.5" transform="translate(3, 0)"/>
+  </g>
+  
+  <!-- Símbolos en el piso -->
+  <g opacity="0.4" font-family="serif" font-size="40" fill="#c4880d" text-anchor="middle">
+    <text x="120" y="350">𓂀</text>
+    <text x="680" y="350">𓂀</text>
+  </g>
+</svg>

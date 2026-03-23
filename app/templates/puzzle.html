@@ -21,12 +21,17 @@
         data-sequence-mode="{{ puzzle.sequence_mode or 'guided' }}"
         data-hints='{{ (puzzle.hints or []) | tojson }}'
       >
-        <div class="tablet-stage">
-          <img
-            src="{{ url_for('static', filename=puzzle.tablet_image) }}"
-            alt="{{ puzzle.tablet_alt or 'Puzzle tablet reference' }}"
-            class="tablet-image"
-          >
+        <div class="tablet-stage puzzle-chamber">
+          <!-- Escena inmersiva de la cámara -->
+          <img 
+            src="{{ puzzle_bg_image }}" 
+            alt="Cámara de la pirámide" 
+            class="puzzle-chamber-bg"
+            loading="lazy"
+          />
+          
+          <!-- Hotspots (símbolos interactivos) -->
+          <div class="puzzle-hotspots">
 
           {% for spot in puzzle.hotspots %}
             <button
@@ -42,6 +47,7 @@
               <span class="hotspot-glyph" aria-hidden="true">{{ spot.glyph or spot.label }}</span>
             </button>
           {% endfor %}
+          </div>
         </div>
 
         {% if puzzle.strict_sequence and puzzle.expected_sequence %}

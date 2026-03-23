@@ -1,0 +1,100 @@
+<svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="chamberGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a2a10;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#5a4a30;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#4a3a20;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a1a10;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="stoneBricks" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <rect width="50" height="50" fill="#5a4a30" stroke="#3a2a20" stroke-width="2"/>
+      <line x1="0" y1="25" x2="50" y2="25" stroke="#3a2a20" stroke-width="1" opacity="0.5"/>
+    </pattern>
+    <filter id="shadowDepth">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Fondo de cámara -->
+  <rect width="1000" height="500" fill="url(#chamberGradient)"/>
+  
+  <!-- Muros de piedra -->
+  <rect width="1000" height="500" fill="url(#stoneBricks)" opacity="0.6"/>
+  
+  <!-- Columnas (4 pilares principales) -->
+  <g filter="url(#shadowDepth)">
+    <rect x="80" y="120" width="80" height="320" fill="#6b5a40" stroke="#3a2a20" stroke-width="3"/>
+    <rect x="840" y="120" width="80" height="320" fill="#6b5a40" stroke="#3a2a20" stroke-width="3"/>
+    <rect x="400" y="150" width="60" height="290" fill="#7a6a50" stroke="#3a2a20" stroke-width="2"/>
+    <rect x="540" y="150" width="60" height="290" fill="#7a6a50" stroke="#3a2a20" stroke-width="2"/>
+    
+    <!-- Decoración en columnas -->
+    <line x1="90" y1="150" x2="150" y2="150" stroke="#d4af37" stroke-width="2" opacity="0.7"/>
+    <line x1="90" y1="250" x2="150" y2="250" stroke="#d4af37" stroke-width="2" opacity="0.7"/>
+    <line x1="90" y1="350" x2="150" y2="350" stroke="#d4af37" stroke-width="2" opacity="0.7"/>
+    <line x1="850" y1="150" x2="910" y2="150" stroke="#d4af37" stroke-width="2" opacity="0.7"/>
+    <line x1="850" y1="250" x2="910" y2="250" stroke="#d4af37" stroke-width="2" opacity="0.7"/>
+    <line x1="850" y1="350" x2="910" y2="350" stroke="#d4af37" stroke-width="2" opacity="0.7"/>
+  </g>
+  
+  <!-- Sarcófago central (punto focal) -->
+  <g filter="url(#shadowDepth)">
+    <ellipse cx="500" cy="380" rx="200" ry="80" fill="#8b7355" stroke="#d4af37" stroke-width="3" opacity="0.9"/>
+    <ellipse cx="500" cy="375" rx="195" ry="75" fill="#9a8365" stroke="#c9a227" stroke-width="2"/>
+    
+    <!-- Decoración de sarcófago -->
+    <circle cx="500" cy="375" r="35" fill="none" stroke="#d4af37" stroke-width="2" opacity="0.7"/>
+    <path d="M 465 375 L 535 375 M 500 340 L 500 410" stroke="#d4af37" stroke-width="1.5" opacity="0.7"/>
+  </g>
+  
+  <!-- Altar en el lado izquierdo -->
+  <g filter="url(#shadowDepth)">
+    <rect x="200" y="280" width="120" height="80" fill="#8b7355" stroke="#d4af37" stroke-width="2"/>
+    <circle cx="260" cy="300" r="15" fill="#d4af37" opacity="0.8"/>
+    <rect x="240" y="320" width="40" height="20" fill="#ffe4b5" stroke="#8b5a2b" stroke-width="1"/>
+  </g>
+  
+  <!-- Altar en el lado derecho -->
+  <g filter="url(#shadowDepth)">
+    <rect x="680" y="280" width="120" height="80" fill="#8b7355" stroke="#d4af37" stroke-width="2"/>
+    <circle cx="740" cy="300" r="15" fill="#d4af37" opacity="0.8"/>
+    <rect x="720" y="320" width="40" height="20" fill="#ffe4b5" stroke="#8b5a2b" stroke-width="1"/>
+  </g>
+  
+  <!-- Antorchas (luz ambiental) -->
+  <g opacity="0.8">
+    <circle cx="150" cy="200" r="20" fill="#be6f4a" stroke="#6b4a2a" stroke-width="2"/>
+    <rect x="147" y="175" width="6" height="30" fill="#ffe4b5"/>
+    <ellipse cx="150" cy="173" rx="5" ry="4" fill="#ff9900"/>
+    
+    <circle cx="850" cy="200" r="20" fill="#be6f4a" stroke="#6b4a2a" stroke-width="2"/>
+    <rect x="847" y="175" width="6" height="30" fill="#ffe4b5"/>
+    <ellipse cx="850" cy="173" rx="5" ry="4" fill="#ff9900"/>
+    
+    <circle cx="500" cy="80" r="18" fill="#be6f4a" stroke="#6b4a2a" stroke-width="2"/>
+    <rect x="497" y="55" width="6" height="28" fill="#ffe4b5"/>
+    <ellipse cx="500" cy="53" rx="5" ry="4" fill="#ff9900"/>
+  </g>
+  
+  <!-- Luz mística -->
+  <circle cx="500" cy="300" r="300" fill="#ffe4a0" opacity="0.08"/>
+  <circle cx="500" cy="200" r="150" fill="#d4af37" opacity="0.05"/>
+  
+  <!-- Jeroglíficos en las paredes (decoración) -->
+  <g opacity="0.25" font-family="serif" font-size="40" fill="#d4af37" text-anchor="middle">
+    <text x="300" y="150">𓂀</text>
+    <text x="700" y="150">𓂀</text>
+    <text x="200" y="400">𓄿</text>
+    <text x="800" y="400">𓈖</text>
+    <text x="150" y="250">𓋴</text>
+    <text x="850" y="250">𓂋</text>
+  </g>
+</svg>

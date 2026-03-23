@@ -288,9 +288,58 @@ function initTabletBoards(root = document) {
   });
 }
 
+function initRoomHunts(root = document) {
+  const hunts = root.querySelectorAll("[data-room-hunt]");
+  hunts.forEach((hunt) => {
+    const scene = hunt.querySelector(".room-scene[data-hunt-target-token]");
+    const feedback = hunt.querySelector("[data-room-hunt-feedback]");
+    const foundInput = hunt.querySelector("[data-room-hunt-found]");
+    const claimButton = hunt.querySelector("[data-room-hunt-claim-btn]");
+    if (!scene || !feedback) {
+      return;
+    }
+
+    const claimed = scene.getAttribute("data-hunt-claimed") === "true";
+    const targetToken = (scene.getAttribute("data-hunt-target-token") || "").trim();
+    if (!targetToken || claimed) {
+      return;
+    }
+
+    scene.querySelectorAll(".scene-object[data-hunt-token]").forEach((obj) => {
+      obj.addEventListener("click", () => {
+        const token = (obj.getAttribute("data-hunt-token") || "").trim();
+        if (!token) {
+          return;
+        }
+
+        scene.querySelectorAll(".scene-object").forEach((node) => node.classList.remove("is-correct", "is-wrong"));
+        if (token === targetToken) {
+          obj.classList.add("is-correct");
+          feedback.textContent = "Correcto. Has encontrado el glifo objetivo. Ya puedes reclamar la recompensa.";
+          feedback.classList.remove("error");
+          feedback.classList.add("success");
+          if (foundInput) {
+            foundInput.value = token;
+          }
+          if (claimButton) {
+            claimButton.disabled = false;
+          }
+          return;
+        }
+
+        obj.classList.add("is-wrong");
+        feedback.textContent = "Ese objeto no contiene el glifo objetivo. Sigue buscando en la sala.";
+        feedback.classList.remove("success");
+        feedback.classList.add("error");
+      });
+    });
+  });
+}
+
 function initPage(root = document) {
   initAlerts(root);
   initTabletBoards(root);
+  initRoomHunts(root);
 }
 
 function replaceAppRegions(nextDocument) {

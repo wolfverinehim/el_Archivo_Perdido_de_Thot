@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="panel glyphs-panel">
+  <h2>Compendio de Glifos — Museo Jeroglífico</h2>
+  <p class="glyphs-intro">
+    Este compendio recoge todos los glifos conocidos del Archivo de Thot. Cada glifo es una ventana a la civilización faraónica, sus creencias y conocimientos. Estúdialos para reconocer sus significados durante los enigmas y domina el lenguaje sagrado del antiguo Egipto.
+  </p>
+
+  <div class="glyph-grid" role="list" aria-label="Museo de glifos egipcios">
+    {% for glyph in glyphs %}
+      <article class="glyph-card glyph-museum-card" role="listitem">
+        <!-- Símbolo principal -->
+        <div class="glyph-card-symbol-container">
+          <p class="glyph-card-symbol" aria-hidden="true">{{ glyph.glyph }}</p>
+        </div>
+        
+        <!-- Información de museo -->
+        <div class="glyph-card-content">
+          <!-- Título y token -->
+          <h3 class="glyph-card-title">{{ glyph.label }}</h3>
+          <p class="glyph-card-token" title="Identificador único del glifo">Clave: <code>{{ glyph.token }}</code></p>
+          
+          <!-- Información jeroglífica -->
+          {% if glyph.get('pronunciation') %}
+          <div class="glyph-info-group">
+            <dt class="glyph-info-label">Pronunciación:</dt>
+            <dd class="glyph-info-value">{{ glyph.pronunciation }}</dd>
+          </div>
+          {% endif %}
+          
+          {% if glyph.get('gardiner') %}
+          <div class="glyph-info-group">
+            <dt class="glyph-info-label">Categoría Gardiner:</dt>
+            <dd class="glyph-info-value">{{ glyph.gardiner }}</dd>
+          </div>
+          {% endif %}
+          
+          {% if glyph.get('example') %}
+          <div class="glyph-info-group">
+            <dt class="glyph-info-label">Palabra ejemplo:</dt>
+            <dd class="glyph-info-value"><em>{{ glyph.example }}</em></dd>
+          </div>
+          {% endif %}
+          
+          <!-- Significado -->
+          <p class="glyph-card-meaning">{{ glyph.meaning }}</p>
+          
+          <!-- Contexto histórico -->
+          {% if glyph.get('historical_context') %}
+          <p class="glyph-card-history">
+            <strong>Contexto histórico:</strong> {{ glyph.historical_context }}
+          </p>
+          {% endif %}
+          
+          <!-- Origen -->
+          <p class="glyph-card-source">Origen: <code>{{ glyph.source or 'manual' }}</code></p>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

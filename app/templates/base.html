@@ -16,10 +16,12 @@
     <h1>El Archivo Perdido de Thot</h1>
     <div class="topbar-actions">
       <a href="{{ url_for('game.index') }}">Inicio</a>
+      <a href="{{ url_for('game.glyphs_knowledge') }}">Glifos</a>
       <a href="{{ url_for('admin.dashboard') }}">Admin</a>
       <a href="{{ url_for('admin.content_editor') }}">Editor</a>
       <span class="progress">Progreso: {{ progress or 0 }}%</span>
     </div>
+    <p class="topbar-objective">Objetivo actual: {{ objective or 'Inicia tu expedición por el Archivo.' }}</p>
   </header>
 
   {% with messages = get_flashed_messages(with_categories=true) %}

@@ -4,7 +4,14 @@ from flask import Blueprint, flash, jsonify, redirect, render_template, request,
 
 from app.extensions import db
 from app.models import EventLog, InventoryItem, Player, PuzzleState, SaveGame
-from app.services.content_service import load_puzzles, load_rooms, save_puzzles, save_rooms
+from app.services.content_service import (
+    load_glyphs,
+    load_puzzles,
+    load_rooms,
+    save_glyphs,
+    save_puzzles,
+    save_rooms,
+)
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -12,22 +19,27 @@ admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 @admin_bp.get("/")
 def dashboard():
     player_id = session.get("player_id")
-    if not player_id:
-        return jsonify({"message": "No active player", "player": None})
+    payload = {
+        "player": None,
+        "savegame": None,
+        "inventory": [],
+        "puzzles": [],
+        "events": [],
+    }
 
-    player = Player.query.get(player_id)
-    savegame = SaveGame.query.filter_by(player_id=player_id).first()
-    items = InventoryItem.query.filter_by(player_id=player_id, active=True).all()
-    puzzles = PuzzleState.query.filter_by(player_id=player_id).all()
-    events = (
-        EventLog.query.filter_by(player_id=player_id)
-        .order_by(EventLog.timestamp.desc())
-        .limit(20)
-        .all()
-    )
+    if player_id:
+        player = Player.query.get(player_id)
+        savegame = SaveGame.query.filter_by(player_id=player_id).first()
+        items = InventoryItem.query.filter_by(player_id=player_id, active=True).all()
+        puzzles = PuzzleState.query.filter_by(player_id=player_id).all()
+        events = (
+            EventLog.query.filter_by(player_id=player_id)
+            .order_by(EventLog.timestamp.desc())
+            .limit(20)
+            .all()
+        )
 
-    return jsonify(
-        {
+        payload = {
             "player": {
                 "id": player.id,
                 "name": player.name,
@@ -65,6 +77,15 @@ def dashboard():
                 for e in events
             ],
         }
+
+    if request.args.get("format") == "json":
+        return jsonify(payload)
+
+    return render_template(
+        "admin_dashboard.html",
+        dashboard=payload,
+        progress=(payload.get("savegame") or {}).get("progress_pct", 0),
+        objective="Administra partidas activas, contenido y registros del Archivo.",
     )
 
 
@@ -87,10 +108,13 @@ def reset_active_game():
 def content_editor():
     rooms = load_rooms()
     puzzles = load_puzzles()
+    glyphs = load_glyphs()
     return render_template(
         "admin_editor.html",
         rooms_json=json.dumps(rooms, ensure_ascii=False, indent=2),
         puzzles_json=json.dumps(puzzles, ensure_ascii=False, indent=2),
+        glyphs_json=json.dumps(glyphs, ensure_ascii=False, indent=2),
+        objective="Edita salas, enigmas y diccionario de glifos del juego.",
     )
 
 
@@ -127,4 +151,22 @@ def save_puzzles_content():
 
     save_puzzles(payload)
     flash("Enigmas actualizados correctamente.", "success")
+    return redirect(url_for("admin.content_editor"))
+
+
+@admin_bp.post("/editor/glyphs")
+def save_glyphs_content():
+    payload_raw = request.form.get("glyphs_json", "[]")
+    try:
+        payload = json.loads(payload_raw)
+    except json.JSONDecodeError:
+        flash("Formato JSON inválido para los glifos.", "error")
+        return redirect(url_for("admin.content_editor"))
+
+    if not isinstance(payload, list):
+        flash("El JSON de glifos debe ser una lista de objetos.", "error")
+        return redirect(url_for("admin.content_editor"))
+
+    save_glyphs(payload)
+    flash("Diccionario de glifos actualizado correctamente.", "success")
     return redirect(url_for("admin.content_editor"))

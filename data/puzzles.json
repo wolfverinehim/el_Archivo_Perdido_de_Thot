@@ -18,56 +18,56 @@
         "glyph": "☥",
         "token": "life",
         "hint": "El Ankh simboliza vitalidad y el comienzo.",
-        "x": 14,
-        "y": 20
+        "x": 25,
+        "y": 30
       },
       {
         "label": "Junco",
         "glyph": "𓇋",
         "token": "reed",
         "hint": "Una fina línea de junco aparece en muchas transliteraciones.",
-        "x": 30,
-        "y": 24
+        "x": 75,
+        "y": 25
       },
       {
         "label": "Búho",
         "glyph": "𓅓",
         "token": "owl",
         "hint": "El símbolo del búho suele anclar un sonido intermedio.",
-        "x": 48,
-        "y": 28
+        "x": 50,
+        "y": 50
       },
       {
         "label": "Agua",
         "glyph": "𓈖",
         "token": "water",
         "hint": "Las marcas onduladas indican agua y finales.",
-        "x": 64,
-        "y": 31
+        "x": 15,
+        "y": 60
       },
       {
         "label": "Sol",
         "glyph": "𓇳",
         "token": "sun",
         "hint": "El sol suele iniciar las secuencias rituales.",
-        "x": 81,
-        "y": 34
+        "x": 85,
+        "y": 55
       },
       {
         "label": "Piedra",
         "glyph": "𓊖",
         "token": "stone",
         "hint": "La piedra no es necesaria para esta primera frase.",
-        "x": 25,
-        "y": 63
+        "x": 50,
+        "y": 75
       },
       {
         "label": "Memoria",
         "glyph": "𓏠",
         "token": "memory",
         "hint": "La memoria pertenece al enigma del mensaje final.",
-        "x": 55,
-        "y": 65
+        "x": 30,
+        "y": 80
       }
     ],
     "hint": "Compón la secuencia pulsando los signos correctos de la tablilla.",

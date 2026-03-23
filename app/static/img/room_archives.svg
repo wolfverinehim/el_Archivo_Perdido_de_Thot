@@ -1,0 +1,85 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="archiveBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4f3715;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#6f4f20;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2f2010;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="stoneTex" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="#5a4a30"/>
+      <circle cx="5" cy="5" r="1" fill="#4a3a20"/>
+      <circle cx="15" cy="10" r="1" fill="#4a3a20"/>
+    </pattern>
+  </defs>
+  
+  <!-- Fondo degradado de cámara subterránea -->
+  <rect width="800" height="400" fill="url(#archiveBg)"/>
+  
+  <!-- Pared de piedra -->
+  <rect width="800" height="400" fill="url(#stoneTex)" opacity="0.3"/>
+  
+  <!-- Pilares de piedra -->
+  <rect x="50" y="50" width="80" height="300" fill="#6b5a40" stroke="#5a4a30" stroke-width="2"/>
+  <rect x="670" y="50" width="80" height="300" fill="#6b5a40" stroke="#5a4a30" stroke-width="2"/>
+  
+  <!-- Estanterías izquierda -->
+  <line x1="150" y1="100" x2="400" y2="100" stroke="#8b7a5f" stroke-width="12" stroke-linecap="round"/>
+  <line x1="150" y1="170" x2="400" y2="170" stroke="#8b7a5f" stroke-width="12" stroke-linecap="round"/>
+  <line x1="150" y1="240" x2="400" y2="240" stroke="#8b7a5f" stroke-width="12" stroke-linecap="round"/>
+  <line x1="150" y1="310" x2="400" y2="310" stroke="#8b7a5f" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Estanterías derecha -->
+  <line x1="400" y1="100" x2="650" y2="100" stroke="#8b7a5f" stroke-width="12" stroke-linecap="round"/>
+  <line x1="400" y1="170" x2="650" y2="170" stroke="#8b7a5f" stroke-width="12" stroke-linecap="round"/>
+  <line x1="400" y1="240" x2="650" y2="240" stroke="#8b7a5f" stroke-width="12" stroke-linecap="round"/>
+  <line x1="400" y1="310" x2="650" y2="310" stroke="#8b7a5f" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Papiros en estanterías -->
+  <g opacity="0.8">
+    <!-- Fila 1 -->
+    <rect x="160" y="85" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="200" y="85" width="20" height="35" fill="#c9944a" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="240" y="85" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="280" y="85" width="20" height="35" fill="#c9944a" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="320" y="85" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    
+    <!-- Fila 2 -->
+    <rect x="160" y="155" width="20" height="35" fill="#c9944a" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="200" y="155" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="240" y="155" width="20" height="35" fill="#c9944a" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="280" y="155" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    
+    <!-- Fila 3 -->
+    <rect x="170" y="225" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="210" y="225" width="20" height="35" fill="#c9944a" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="250" y="225" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    
+    <!-- Papiros derechos -->
+    <rect x="420" y="85" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="460" y="85" width="20" height="35" fill="#c9944a" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="500" y="85" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="540" y="85" width="20" height="35" fill="#c9944a" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    
+    <rect x="420" y="155" width="20" height="35" fill="#c9944a" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="460" y="155" width="20" height="35" fill="#d4a574" stroke="#8b6f47" stroke-width="1" rx="2"/>
+    <rect x="500" y="155" width="20" height="35" fill="#c9944a" stroke="#8b6f47" stroke-width="1" rx="2"/>
+  </g>
+  
+  <!-- Velas en soporte central -->
+  <g opacity="0.7">
+    <circle cx="400" cy="350" r="15" fill="#c4795f" stroke="#8b5a3c" stroke-width="2"/>
+    <rect x="395" y="330" width="10" height="25" fill="#ffe4b5" stroke="#f0a000" stroke-width="1"/>
+    <ellipse cx="400" cy="328" rx="6" ry="4" fill="#ffa500"/>
+    
+    <circle cx="300" cy="360" r="12" fill="#c4795f" stroke="#8b5a3c" stroke-width="2"/>
+    <rect x="297" y="345" width="6" height="15" fill="#ffe4b5" stroke="#f0a000" stroke-width="1"/>
+    <ellipse cx="300" cy="343" rx="4" ry="3" fill="#ffa500"/>
+    
+    <circle cx="500" cy="360" r="12" fill="#c4795f" stroke="#8b5a3c" stroke-width="2"/>
+    <rect x="497" y="345" width="6" height="15" fill="#ffe4b5" stroke="#f0a000" stroke-width="1"/>
+    <ellipse cx="500" cy="343" rx="4" ry="3" fill="#ffa500"/>
+  </g>
+  
+  <!-- Luz ambiental -->
+  <circle cx="400" cy="150" r="200" fill="#ffe4a0" opacity="0.15"/>
+</svg>

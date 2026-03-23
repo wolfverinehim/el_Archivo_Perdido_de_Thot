@@ -28,9 +28,15 @@ def load_puzzles():
     return _load_json_file("puzzles.json")
 
 
+@lru_cache(maxsize=1)
+def load_glyphs():
+    return _load_json_file("glyphs.json")
+
+
 def clear_content_cache():
     load_rooms.cache_clear()
     load_puzzles.cache_clear()
+    load_glyphs.cache_clear()
 
 
 def save_rooms(payload):
@@ -40,4 +46,9 @@ def save_rooms(payload):
 
 def save_puzzles(payload):
     _write_json_file("puzzles.json", payload)
+    clear_content_cache()
+
+
+def save_glyphs(payload):
+    _write_json_file("glyphs.json", payload)
     clear_content_cache()
