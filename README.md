@@ -2,6 +2,12 @@
 
 Proyecto base para una aventura grafica web construida con Flask, SQLite y contenido configurable en JSON.
 
+## Continuidad en otro PC
+
+Si vas a clonar el proyecto en otra maquina para seguir el desarrollo, usa la guia de continuidad:
+
+- [docs/CONTINUIDAD_DESARROLLO.md](docs/CONTINUIDAD_DESARROLLO.md)
+
 ## Objetivo
 
 Esta base esta preparada para crecer por modulos:
