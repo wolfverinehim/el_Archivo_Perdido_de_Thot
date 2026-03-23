@@ -1,0 +1,475 @@
+:root {
+  --sand: #efe2c1;
+  --gold: #ad7b28;
+  --ink: #2f2512;
+  --stone: #d4c29a;
+  --panel: #f7f0de;
+  --danger: #a7372f;
+  --ok: #2f6f3e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--ink);
+  background-image: url('../img/egypt_bg.svg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: #1e0d3a;
+  min-height: 100vh;
+}
+
+main {
+  width: min(1100px, 95vw);
+  margin: 1.5rem auto 2rem;
+  min-height: 50vh;
+}
+
+.topbar {
+  background: linear-gradient(90deg, #67451b, #8b6327);
+  color: #fff;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.topbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+.editor-layout {
+  grid-template-columns: 1fr 1fr;
+}
+
+.panel {
+  border: 2px solid var(--gold);
+  background: rgba(247, 240, 222, 0.96);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 8px 28px rgba(10, 3, 0, 0.55), 0 0 0 1px rgba(173, 123, 40, 0.25);
+  backdrop-filter: blur(2px);
+}
+
+.hero {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Pantalla de inicio ── */
+.hero-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .hero-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lore {
+  max-width: none;
+}
+
+.lore-title {
+  font-size: 1.35rem;
+  margin: 0 0 0.8rem;
+  color: var(--gold);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.lore-subtitle {
+  font-size: 1.05rem;
+  margin: 1rem 0 0.4rem;
+  color: #5d3b10;
+}
+
+.lore-verse {
+  line-height: 1.7;
+  margin: 0 0 0.8rem;
+}
+
+.lore-steps {
+  padding-left: 1.2rem;
+  line-height: 1.8;
+}
+
+.lore-warning {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #7a3b2e;
+  background: #fdebd0;
+  border-left: 4px solid #c47a28;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+}
+
+.music-control {
+  margin-bottom: 1rem;
+}
+
+.global-music-player {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: min(360px, calc(100vw - 2rem));
+  padding: 0.8rem;
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  background: rgba(247, 240, 222, 0.95);
+  box-shadow: 0 10px 28px rgba(10, 3, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 20;
+}
+
+.music-btn {
+  background: #5a3a10;
+  border-color: #ad7b28;
+  color: #ffe8a0;
+  font-size: 1rem;
+  width: 100%;
+  animation: music-pulse 2s ease-in-out infinite;
+}
+
+.music-native {
+  width: 100%;
+  margin-top: 0.7rem;
+}
+
+.music-status {
+  margin: 0.55rem 0 0;
+  font-size: 0.9rem;
+  color: #5d451f;
+}
+
+.music-status.ok {
+  color: #1f6132;
+}
+
+.music-status.warn {
+  color: #8a5d12;
+}
+
+.music-status.error {
+  color: #8e2a22;
+}
+
+@media (max-width: 720px) {
+  .global-music-player {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: auto;
+  }
+}
+
+.music-btn--pulse {
+  animation: music-pulse 2s ease-in-out infinite;
+}
+
+@keyframes music-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(173, 123, 40, 0.5); }
+  50%       { box-shadow: 0 0 0 8px rgba(173, 123, 40, 0); }
+}
+
+.stack {
+  display: grid;
+  gap: 0.6rem;
+}
+
+input,
+textarea,
+button,
+.button {
+  font: inherit;
+}
+
+input {
+  border: 1px solid #987846;
+  border-radius: 8px;
+  padding: 0.6rem;
+  background: #fff;
+}
+
+textarea {
+  width: 100%;
+  border: 1px solid #987846;
+  border-radius: 8px;
+  padding: 0.6rem;
+  background: #fffdf8;
+  resize: vertical;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+button,
+.button {
+  display: inline-block;
+  border: 1px solid #5f4318;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  background: #7a5520;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button.secondary {
+  background: #c7a56c;
+  color: #2f2512;
+}
+
+.button-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.alerts {
+  width: min(1100px, 95vw);
+  margin: 1rem auto;
+}
+
+.alert {
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  margin: 0.4rem 0;
+}
+
+.alert-warning {
+  background: #fde6b2;
+  border: 1px solid #c48a16;
+}
+
+.alert-error {
+  background: #f4cdc8;
+  border: 1px solid var(--danger);
+}
+
+.alert-success {
+  background: #d8eecf;
+  border: 1px solid var(--ok);
+}
+
+.inventory ul,
+.room ul {
+  padding-left: 1rem;
+}
+
+.tablet-figure {
+  margin: 0.8rem 0 1rem;
+}
+
+.tablet-image {
+  width: 100%;
+  max-width: 620px;
+  border-radius: 10px;
+  border: 2px solid #8b6327;
+  box-shadow: 0 8px 18px rgba(47, 37, 18, 0.2);
+  display: block;
+}
+
+.tablet-figure figcaption {
+  margin-top: 0.45rem;
+  color: #5d451f;
+  font-size: 0.92rem;
+}
+
+.tablet-board {
+  margin: 1rem 0;
+}
+
+.tablet-stage {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 1px solid #4f3816;
+  background: rgba(84, 58, 18, 0.85);
+  color: #fff;
+  font-size: 1.35rem;
+  line-height: 1;
+  padding: 0.32rem 0.48rem;
+  border-radius: 999px;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI Symbol", "Segoe UI Historic", "Noto Sans Egyptian Hieroglyphs", Georgia, serif;
+}
+
+.hotspot-glyph {
+  transform: translateY(-1px);
+}
+
+.hotspot:hover,
+.hotspot:focus {
+  background: rgba(173, 123, 40, 0.95);
+}
+
+.hotspot.hotspot-next {
+  box-shadow: 0 0 0 3px rgba(230, 195, 113, 0.65);
+  background: rgba(132, 84, 20, 0.95);
+}
+
+.hotspot.hotspot-consumed,
+.hotspot:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: rgba(90, 78, 58, 0.82);
+}
+
+.hotspot-controls {
+  margin-top: 0.6rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.glyph-answer-wrap {
+  margin-top: 0.75rem;
+}
+
+.glyph-answer-label {
+  margin: 0 0 0.4rem;
+  color: #5d451f;
+  font-weight: bold;
+}
+
+.glyph-answer {
+  min-height: 72px;
+  padding: 0.75rem;
+  border: 1px solid #987846;
+  border-radius: 10px;
+  background: rgba(255, 250, 240, 0.9);
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.glyph-chip {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0.2rem 0.45rem;
+  border-radius: 10px;
+  border: 1px solid #b88d42;
+  background: linear-gradient(180deg, #f6e7bd, #d3b06a);
+  color: #3c2609;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  line-height: 1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 3px 10px rgba(47, 37, 18, 0.14);
+  font-family: "Segoe UI Symbol", "Segoe UI Historic", "Noto Sans Egyptian Hieroglyphs", Georgia, serif;
+}
+
+.glyph-chip-placeholder {
+  font-size: 1rem;
+  color: #7c6540;
+}
+
+.glyph-answer-help {
+  margin: 0.35rem 0 0;
+  color: #6c5327;
+  font-size: 0.92rem;
+}
+
+.sequence-note {
+  margin: 0.7rem 0 0.35rem;
+  color: #5d451f;
+  font-weight: bold;
+}
+
+.sequence-feedback {
+  min-height: 1.3rem;
+  margin: 0.2rem 0 0.5rem;
+  font-size: 0.92rem;
+}
+
+.sequence-feedback.error {
+  color: #8e2a22;
+}
+
+.sequence-feedback.success {
+  color: #1f6132;
+}
+
+.sequence-feedback.info {
+  color: #5d451f;
+}
+
+.spot-hint {
+  min-height: 1.2rem;
+  margin: 0.2rem 0 0.45rem;
+  color: #4d3a1a;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.victory {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--ok);
+  background: #e6f4de;
+  font-weight: bold;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hotspot {
+    font-size: 0.72rem;
+    min-width: 40px;
+  }
+}

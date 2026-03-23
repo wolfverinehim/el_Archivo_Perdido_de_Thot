@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g_sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0d0621"/>
+      <stop offset="30%"  stop-color="#1e0d3a"/>
+      <stop offset="60%"  stop-color="#6b2210"/>
+      <stop offset="80%"  stop-color="#b85820"/>
+      <stop offset="100%" stop-color="#e0a030"/>
+    </linearGradient>
+    <linearGradient id="g_sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#d8ad55"/>
+      <stop offset="100%" stop-color="#7a5018"/>
+    </linearGradient>
+    <linearGradient id="g_pyr_main" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#c09030"/>
+      <stop offset="48%"  stop-color="#e8c060"/>
+      <stop offset="100%" stop-color="#7a4e10"/>
+    </linearGradient>
+    <linearGradient id="g_pyr_side" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#b07820"/>
+      <stop offset="48%"  stop-color="#d8a845"/>
+      <stop offset="100%" stop-color="#6a3e0e"/>
+    </linearGradient>
+    <radialGradient id="g_moon" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#fffae0"/>
+      <stop offset="100%" stop-color="#f5e070"/>
+    </radialGradient>
+    <radialGradient id="g_moon_glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#fffae0" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#fffae0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g_vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"   stop-color="transparent"/>
+      <stop offset="100%" stop-color="#0d0621" stop-opacity="0.55"/>
+    </radialGradient>
+    <pattern id="border_pat" x="0" y="0" width="40" height="22" patternUnits="userSpaceOnUse">
+      <polygon points="20,2 38,20 2,20" fill="none" stroke="#c9902a" stroke-width="1.2"/>
+      <circle cx="20" cy="12" r="2.5" fill="#c9902a"/>
+    </pattern>
+  </defs>
+
+  <!-- ── Cielo ── -->
+  <rect width="1600" height="900" fill="url(#g_sky)"/>
+
+  <!-- ── Luna ── -->
+  <circle cx="1350" cy="130" r="90" fill="url(#g_moon_glow)"/>
+  <circle cx="1350" cy="130" r="58"  fill="url(#g_moon)"/>
+  <circle cx="1332" cy="116" r="10"  fill="#e8d880" opacity="0.35"/>
+  <circle cx="1365" cy="146" r="7"   fill="#e8d880" opacity="0.30"/>
+  <circle cx="1340" cy="148" r="4"   fill="#e8d880" opacity="0.25"/>
+
+  <!-- ── Estrellas ── -->
+  <g fill="white" opacity="0.85">
+    <circle cx="45"   cy="35"  r="1.5"/> <circle cx="110"  cy="28"  r="1.0"/>
+    <circle cx="185"  cy="48"  r="2.0"/> <circle cx="255"  cy="22"  r="1.2"/>
+    <circle cx="325"  cy="55"  r="1.0"/> <circle cx="395"  cy="32"  r="1.8"/>
+    <circle cx="465"  cy="45"  r="1.0"/> <circle cx="535"  cy="18"  r="2.0"/>
+    <circle cx="615"  cy="52"  r="1.2"/> <circle cx="680"  cy="30"  r="1.0"/>
+    <circle cx="755"  cy="48"  r="1.8"/> <circle cx="825"  cy="20"  r="1.0"/>
+    <circle cx="892"  cy="44"  r="1.5"/> <circle cx="960"  cy="32"  r="2.0"/>
+    <circle cx="1040" cy="55"  r="1.0"/> <circle cx="1115" cy="22"  r="1.5"/>
+    <circle cx="1190" cy="48"  r="1.0"/> <circle cx="1220" cy="35"  r="1.8"/>
+    <circle cx="1500" cy="40"  r="2.0"/> <circle cx="1560" cy="25"  r="1.2"/>
+    <circle cx="75"   cy="95"  r="1.0"/> <circle cx="155"  cy="110" r="1.5"/>
+    <circle cx="225"  cy="88"  r="2.0"/> <circle cx="300"  cy="115" r="1.0"/>
+    <circle cx="370"  cy="92"  r="1.5"/> <circle cx="445"  cy="120" r="1.0"/>
+    <circle cx="515"  cy="100" r="2.0"/> <circle cx="590"  cy="88"  r="1.2"/>
+    <circle cx="660"  cy="112" r="1.0"/> <circle cx="735"  cy="95"  r="1.8"/>
+    <circle cx="808"  cy="118" r="1.0"/> <circle cx="870"  cy="90"  r="2.0"/>
+    <circle cx="938"  cy="108" r="1.2"/> <circle cx="1010" cy="95"  r="1.0"/>
+    <circle cx="1080" cy="122" r="1.5"/> <circle cx="1155" cy="88"  r="1.0"/>
+    <circle cx="1450" cy="100" r="1.8"/> <circle cx="1525" cy="115" r="1.0"/>
+    <circle cx="1590" cy="90"  r="1.5"/>
+    <circle cx="55"   cy="155" r="1.2"/> <circle cx="135"  cy="172" r="1.0"/>
+    <circle cx="210"  cy="148" r="1.8"/> <circle cx="285"  cy="168" r="1.0"/>
+    <circle cx="358"  cy="152" r="2.0"/> <circle cx="422"  cy="175" r="1.0"/>
+    <circle cx="498"  cy="158" r="1.5"/> <circle cx="572"  cy="182" r="1.0"/>
+    <circle cx="642"  cy="148" r="2.0"/> <circle cx="718"  cy="170" r="1.2"/>
+    <circle cx="788"  cy="155" r="1.0"/> <circle cx="852"  cy="175" r="1.8"/>
+    <circle cx="922"  cy="150" r="1.0"/> <circle cx="992"  cy="172" r="1.5"/>
+    <circle cx="1058" cy="148" r="2.0"/> <circle cx="1130" cy="168" r="1.0"/>
+    <circle cx="1465" cy="155" r="1.0"/> <circle cx="1535" cy="175" r="1.5"/>
+    <circle cx="90"   cy="215" r="1.0"/> <circle cx="170"  cy="238" r="1.5"/>
+    <circle cx="248"  cy="208" r="1.8"/> <circle cx="318"  cy="242" r="1.0"/>
+    <circle cx="398"  cy="218" r="2.0"/> <circle cx="468"  cy="248" r="1.2"/>
+    <circle cx="548"  cy="222" r="1.0"/> <circle cx="615"  cy="245" r="1.8"/>
+    <circle cx="688"  cy="210" r="1.0"/> <circle cx="760"  cy="235" r="2.0"/>
+    <circle cx="835"  cy="212" r="1.2"/> <circle cx="902"  cy="248" r="1.0"/>
+    <circle cx="975"  cy="218" r="1.8"/> <circle cx="1048" cy="240" r="1.0"/>
+    <circle cx="1118" cy="208" r="2.0"/> <circle cx="1188" cy="235" r="1.0"/>
+    <circle cx="1482" cy="220" r="1.5"/> <circle cx="1555" cy="242" r="1.0"/>
+    <circle cx="62"   cy="275" r="1.0"/> <circle cx="148"  cy="295" r="1.5"/>
+    <circle cx="228"  cy="268" r="1.8"/> <circle cx="305"  cy="290" r="1.0"/>
+    <circle cx="378"  cy="278" r="2.0"/> <circle cx="452"  cy="302" r="1.0"/>
+    <circle cx="522"  cy="272" r="1.5"/> <circle cx="598"  cy="295" r="1.2"/>
+    <circle cx="672"  cy="268" r="1.0"/> <circle cx="745"  cy="292" r="1.8"/>
+    <circle cx="818"  cy="275" r="1.0"/> <circle cx="888"  cy="298" r="2.0"/>
+    <circle cx="958"  cy="270" r="1.2"/> <circle cx="1028" cy="293" r="1.0"/>
+    <circle cx="1098" cy="278" r="1.8"/> <circle cx="1165" cy="300" r="1.0"/>
+    <circle cx="1472" cy="278" r="1.0"/> <circle cx="1542" cy="296" r="1.5"/>
+    <circle cx="1588" cy="272" r="1.8"/>
+  </g>
+
+  <!-- ── Río Nilo ── -->
+  <ellipse cx="800" cy="718" rx="1050" ry="28" fill="#1a4a72" opacity="0.5"/>
+  <ellipse cx="800" cy="720" rx="1030" ry="18" fill="#2060a0" opacity="0.25"/>
+  <!-- reflejo de luna en el Nilo -->
+  <ellipse cx="680" cy="720" rx="70" ry="9" fill="#fffae0" opacity="0.18"/>
+
+  <!-- ── Arena del desierto ── -->
+  <path d="M0 710 Q400 698 800 708 Q1200 718 1600 705 L1600 900 L0 900 Z"
+        fill="url(#g_sand)"/>
+  <path d="M0 758 Q300 744 600 754 Q900 764 1200 748 Q1400 742 1600 752 L1600 900 L0 900 Z"
+        fill="#c8a040" opacity="0.35"/>
+  <path d="M0 798 Q250 787 500 794 Q750 802 1000 789 Q1250 777 1500 792 L1600 790 L1600 900 L0 900 Z"
+        fill="#a07828" opacity="0.30"/>
+
+  <!-- ── Pirámide izquierda (pequeña) ── -->
+  <polygon points="130,650 358,712 -98,712"  fill="url(#g_pyr_side)"/>
+  <polygon points="130,650 358,712 244,712"  fill="#4a2008" opacity="0.55"/>
+  <rect x="113" y="686" width="26" height="24" rx="3" fill="#0a0300" opacity="0.88"/>
+
+  <!-- ── Pirámide derecha (mediana) ── -->
+  <polygon points="1470,588 1715,712 1225,712" fill="url(#g_pyr_side)"/>
+  <polygon points="1470,588 1715,712 1594,712" fill="#4a2008" opacity="0.52"/>
+  <rect x="1452" y="666" width="30" height="34" rx="3" fill="#0a0300" opacity="0.88"/>
+
+  <!-- ── Pirámide central (grande) ── -->
+  <polygon points="800,175 1232,712 368,712"  fill="url(#g_pyr_main)"/>
+  <polygon points="800,175 1232,712 1015,712" fill="#3e1a06" opacity="0.52"/>
+  <!-- capitel dorado -->
+  <polygon points="800,175 816,188 784,188"   fill="#f5e080" opacity="0.65"/>
+  <!-- entrada -->
+  <rect x="778" y="643" width="46" height="60" rx="5" fill="#0a0300" opacity="0.90"/>
+
+  <!-- ── Esfinge (izquierda de la pirámide central) ── -->
+  <!-- cuerpo -->
+  <ellipse cx="575" cy="706" rx="70" ry="26" fill="#c09430"/>
+  <!-- patas delanteras -->
+  <ellipse cx="526" cy="714" rx="22" ry="9"  fill="#b08428"/>
+  <!-- nemes (tocado) -->
+  <polygon points="624,663 648,682 643,707 607,707 603,682" fill="#d4a840"/>
+  <!-- cabeza -->
+  <circle cx="625" cy="677" r="22" fill="#c09030"/>
+  <!-- ojos -->
+  <ellipse cx="618" cy="675" rx="3.5" ry="4.5" fill="#6a3a0a"/>
+  <ellipse cx="633" cy="675" rx="3.5" ry="4.5" fill="#6a3a0a"/>
+  <!-- nariz/boca -->
+  <line x1="614" y1="683" x2="640" y2="683" stroke="#8a5a1a" stroke-width="1.5"/>
+  <!-- barba real -->
+  <rect x="622" y="698" width="8" height="15" rx="3" fill="#b8862a"/>
+
+  <!-- ── Palmera izquierda ── -->
+  <rect x="310" y="635" width="7" height="78" rx="3" fill="#4a2e0c"
+        transform="rotate(-4,313,713)"/>
+  <ellipse cx="302" cy="633" rx="30" ry="9" fill="#1e4810"
+           transform="rotate(-32,302,633)"/>
+  <ellipse cx="308" cy="627" rx="28" ry="8" fill="#2a5c18"
+           transform="rotate(5,308,627)"/>
+  <ellipse cx="323" cy="631" rx="28" ry="8" fill="#1e4810"
+           transform="rotate(38,323,631)"/>
+  <ellipse cx="314" cy="620" rx="24" ry="7" fill="#2a5c18"
+           transform="rotate(-15,314,620)"/>
+
+  <!-- ── Palmera derecha ── -->
+  <rect x="1282" y="632" width="7" height="80" rx="3" fill="#4a2e0c"
+        transform="rotate(5,1285,712)"/>
+  <ellipse cx="1275" cy="630" rx="29" ry="9" fill="#1e4810"
+           transform="rotate(-30,1275,630)"/>
+  <ellipse cx="1282" cy="624" rx="27" ry="8" fill="#2a5c18"
+           transform="rotate(8,1282,624)"/>
+  <ellipse cx="1295" cy="628" rx="27" ry="8" fill="#1e4810"
+           transform="rotate(40,1295,628)"/>
+  <ellipse cx="1286" cy="618" rx="23" ry="7" fill="#2a5c18"
+           transform="rotate(-12,1286,618)"/>
+
+  <!-- ── Franja decorativa superior ── -->
+  <rect width="1600" height="22" fill="#1a0d05" opacity="0.82"/>
+  <rect width="1600" height="22" fill="url(#border_pat)" opacity="0.85"/>
+
+  <!-- ── Franja decorativa inferior ── -->
+  <rect y="878" width="1600" height="22" fill="#1a0d05" opacity="0.82"/>
+  <rect y="878" width="1600" height="22" fill="url(#border_pat)" opacity="0.85"/>
+
+  <!-- ── Viñeta perimetral ── -->
+  <rect width="1600" height="900" fill="url(#g_vignette)"/>
+</svg>

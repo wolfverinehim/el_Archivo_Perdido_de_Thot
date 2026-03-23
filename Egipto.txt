@@ -1,0 +1,93 @@
+Documento de requisitos técnicos
+Proyecto formativo: aventura gráfica basada en tabla de jeroglíficos
+Propuesta para prácticas de una semana en ACCURO
+Nombre interno del proyectoEl Archivo Perdido de ThotStack solicitadoVS Code · Python · Flask · HTML/CSS/JS · SQLiteDuración objetivo5 días laborablesResultado esperadoDemo funcional navegable con puzles, inventario y panel básico de administración
+Resumen ejecutivo. Se propone una pequeña aventura gráfica web en la que el jugador debe descifrar símbolos de una tabla de jeroglíficos para avanzar por distintas salas, recuperar fragmentos de conocimiento y completar una misión final. El objetivo pedagógico es que los alumnos practiquen arquitectura web, lógica de juego, persistencia de estado, diseño de APIs sencillas, plantillas Flask y organización profesional del código.
+
+
+1. Idea de juego propuesta
+Concepto. El jugador encarna a un becario que entra en el “Archivo Perdido de Thot”, una instalación inspirada en la tabla regalada. Cada símbolo representa una pista, una llave o una regla semántica. La misión consiste en desbloquear tres cámaras, recomponer un mensaje secreto y activar el “motor de conocimiento” final.
+Tono y enfoque. Aventura gráfica ligera, web, con navegación por escenas, cuadros de diálogo, objetos interactivos, inventario y puzles basados en observación, combinación de símbolos y secuencias.
+1.1 Bucle jugable
+* Explorar una sala y detectar elementos clicables.
+* Leer pistas narrativas o visuales asociadas a jeroglíficos de la tabla.
+* Resolver un puzle para obtener un objeto o un fragmento de texto.
+* Usar el objeto en otra sala o desbloquear una nueva escena.
+* Guardar progreso y culminar la secuencia final.
+1.2 Puzles mínimos recomendados
+PuzleDescripciónMecánicaSalidaTraductor básicoRelacionar 5–7 símbolos de la tabla con letras o sonidos.Selección / drag & drop simpleCódigo de accesoSecuencia ritualOrdenar símbolos correctos según una pista encontrada.Validación de secuenciaLlave de piedraObjeto correctoElegir qué objeto del inventario se usa sobre un altar o puerta.Uso de inventarioApertura de nueva salaMensaje finalReconstruir una frase combinando fragmentos recogidos.Combinación de tokensPantalla de victoria2. Objetivos formativos
+* Entender una arquitectura MVC sencilla con Flask.
+* Separar lógica de negocio, vistas, recursos estáticos y persistencia.
+* Implementar sesiones, progreso de partida y validación de acciones.
+* Trabajar con Git, ramas, issues y commits diarios bien descritos.
+* Preparar una demo reproducible y una breve documentación de despliegue local.
+3. Alcance funcional del MVP
+3.1 Funcionalidades obligatorias
+* Pantalla inicial con botón de nueva partida y continuar.
+* Tres escenas o salas navegables.
+* Sistema de diálogo o textos narrativos por escena.
+* Inventario visible con al menos 4 objetos.
+* Mínimo 3 puzles interactivos y una condición de victoria.
+* Persistencia básica del progreso en SQLite.
+* Panel sencillo de administración o depuración para reiniciar partidas y revisar estado.
+* Diseño responsive básico para escritorio y tablet.
+3.2 Funcionalidades opcionales
+* Efectos de sonido o música ambiental.
+* Animaciones ligeras con CSS/JavaScript.
+* Sistema de pistas con penalización narrativa.
+* Ranking local por tiempo o número de intentos.
+* Carga de nuevas escenas desde JSON para facilitar ampliaciones.
+4. Arquitectura técnica propuesta
+CapaTecnologíaResponsabilidadObservacionesPresentaciónHTML + Jinja + CSS + JSRenderizado de escenas, inventario, diálogos y formulariosSin frameworks pesados para una semanaAplicaciónFlaskRouting, lógica de juego, validaciones, sesiones y APIs internasBlueprints recomendadosDominioPythonReglas de puzles, estado del jugador, resolución y progresiónSeparar del routingPersistenciaSQLiteUsuarios de prueba, partidas, inventario y eventosAdecuado para demo localActivosJSON / imágenesDefinición de escenas, pistas y textosFacilita ampliación futura4.1 Estructura de carpetas recomendada
+app/
+  __init__.py
+  routes/
+    game.py
+    admin.py
+  services/
+    puzzle_service.py
+    inventory_service.py
+  models/
+    player.py
+    savegame.py
+  templates/
+    base.html
+    index.html
+    room.html
+    puzzle.html
+  static/
+    css/
+    js/
+    img/
+data/
+  rooms.json
+  puzzles.json
+instance/
+tests/
+run.py
+requirements.txt
+README.md
+5. Modelo de datos mínimo
+EntidadCampos mínimosUsoPrioridadPlayerid, nombre, fecha_inicioIdentificación de la partidaAltaSaveGameid, player_id, room_actual, estado, progreso_pctPersistir avanceAltaInventoryItemid, codigo, nombre, descripcion, activoObjetos obtenidos o usadosAltaPuzzleStateid, puzzle_code, resuelto, intentos, ultima_respuestaControlar cada retoAltaEventLogid, tipo, detalle, timestampAuditoría y depuraciónMedia6. Requisitos técnicos detallados
+IDRequisitoRT-01La aplicación deberá ejecutarse en entorno local con Python 3.11 o superior.RT-02Se utilizará Flask como framework web principal, con plantillas Jinja2.RT-03La lógica de puzles no deberá quedar incrustada en las vistas; se implementará en servicios o módulos de dominio.RT-04El progreso del jugador deberá persistirse tras recargar la página o reiniciar el servidor.RT-05Cada acción relevante del juego deberá validarse en backend, no solo en JavaScript.RT-06Se documentarán variables de entorno, instalación y ejecución en README.RT-07El proyecto deberá incluir al menos 5 pruebas automáticas unitarias o funcionales básicas.RT-08Los textos, salas y puzles deberán poder modificarse sin tocar toda la aplicación; preferentemente mediante JSON o tablas simples.RT-09El código deberá seguir una estructura modular, nomenclatura consistente y comentarios solo donde aporten contexto real.RT-10La interfaz deberá permitir completar la demo sin usar consola ni editar base de datos manualmente.7. Historias de usuario
+* Como jugador, quiero iniciar una partida nueva para empezar la aventura desde la introducción.
+* Como jugador, quiero inspeccionar objetos de una sala para descubrir pistas relevantes.
+* Como jugador, quiero almacenar objetos en un inventario para reutilizarlos más adelante.
+* Como jugador, quiero que el sistema recuerde mi avance para continuar la partida después.
+* Como administrador, quiero reiniciar una partida de prueba para repetir la demo rápidamente.
+8. Plan de trabajo sugerido para 5 días
+DíaObjetivoEntregableResponsable sugerido1Definir historia, wireframe, rutas y modelo de datosBacklog + estructura base + repositorioAmbos2Implementar navegación entre salas e inventarioFlujo jugable básicoPerfil full-stack 13Implementar puzles y persistenciaMVP con guardadoPerfil full-stack 24Pulido visual, panel admin y pruebasVersión candidata a demoAmbos5Demo final, README y retrospectivaEntrega funcional y explicación técnicaAmbos9. Criterios de aceptación
+* La demo arranca con un único comando documentado.
+* Es posible completar la aventura de inicio a fin en menos de 10 minutos.
+* Los puzles validan correctamente aciertos y errores desde backend.
+* La partida se conserva tras cerrar y volver a abrir el navegador.
+* Existe una explicación clara del diseño técnico y de las decisiones tomadas.
+10. Recomendaciones de supervisión
+* Pedir demo diaria de 10 minutos al cierre de jornada.
+* Exigir commits pequeños y frecuentes en lugar de una entrega final monolítica.
+* Valorar más la claridad arquitectónica y la ejecución básica sólida que el exceso de funcionalidades.
+* Mantener el arte y los recursos visuales simples; el foco debe estar en la lógica y la estructura.
+11. Siguiente fase posible
+Si el resultado es bueno, esta base puede evolucionar a: editor de escenas, carga dinámica de misiones, sistema de pistas asistido por IA, multiusuario local o versión educativa para formación interna.
+Página 1
+

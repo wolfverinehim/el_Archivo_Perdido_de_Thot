@@ -1,0 +1,187 @@
+{
+  "glyph_translator": {
+    "title": "Traductor Básico",
+    "prompt": "Descifra la primera secuencia componiéndola con los signos de la tablilla.",
+    "tablet_image": "img/tablilla.jpeg",
+    "tablet_alt": "Tablilla interactiva para componer la traducción.",
+    "strict_sequence": true,
+    "sequence_mode": "guided",
+    "expected_sequence": [
+      "life",
+      "reed",
+      "owl",
+      "water"
+    ],
+    "hotspots": [
+      {
+        "label": "Ankh",
+        "glyph": "☥",
+        "token": "life",
+        "hint": "El Ankh simboliza vitalidad y el comienzo.",
+        "x": 14,
+        "y": 20
+      },
+      {
+        "label": "Junco",
+        "glyph": "𓇋",
+        "token": "reed",
+        "hint": "Una fina línea de junco aparece en muchas transliteraciones.",
+        "x": 30,
+        "y": 24
+      },
+      {
+        "label": "Búho",
+        "glyph": "𓅓",
+        "token": "owl",
+        "hint": "El símbolo del búho suele anclar un sonido intermedio.",
+        "x": 48,
+        "y": 28
+      },
+      {
+        "label": "Agua",
+        "glyph": "𓈖",
+        "token": "water",
+        "hint": "Las marcas onduladas indican agua y finales.",
+        "x": 64,
+        "y": 31
+      },
+      {
+        "label": "Sol",
+        "glyph": "𓇳",
+        "token": "sun",
+        "hint": "El sol suele iniciar las secuencias rituales.",
+        "x": 81,
+        "y": 34
+      },
+      {
+        "label": "Piedra",
+        "glyph": "𓊖",
+        "token": "stone",
+        "hint": "La piedra no es necesaria para esta primera frase.",
+        "x": 25,
+        "y": 63
+      },
+      {
+        "label": "Memoria",
+        "glyph": "𓏠",
+        "token": "memory",
+        "hint": "La memoria pertenece al enigma del mensaje final.",
+        "x": 55,
+        "y": 65
+      }
+    ],
+    "hint": "Compón la secuencia pulsando los signos correctos de la tablilla.",
+    "hints": [
+      "La secuencia empieza con el signo ankh.",
+      "Después del ankh vienen junco, búho y agua.",
+      "Observa cómo los signos se van componiendo bajo la tablilla."
+    ],
+    "hint_penalty": 5,
+    "expected_answer": "life reed owl water",
+    "progress": 30,
+    "unlock_room": "ritual",
+    "reward": {
+      "code": "tablet_fragment",
+      "name": "Fragmento de Tablilla",
+      "description": "Un fragmento con símbolos que hacen referencia al orden ritual."
+    }
+  },
+  "ritual_sequence": {
+    "title": "Secuencia Ritual",
+    "prompt": "Introduce el orden correcto mostrado por los obeliscos.",
+    "tablet_image": "img/tablilla.jpeg",
+    "tablet_alt": "Secuencia ritual extraída de la tablilla.",
+    "strict_sequence": true,
+    "sequence_mode": "hard",
+    "expected_sequence": [
+      "sun",
+      "reed",
+      "owl",
+      "water"
+    ],
+    "hotspots": [
+      {
+        "label": "Sol",
+        "glyph": "𓇳",
+        "token": "sun",
+        "hint": "El rito comienza al amanecer.",
+        "x": 81,
+        "y": 34
+      },
+      {
+        "label": "Junco",
+        "glyph": "𓇋",
+        "token": "reed",
+        "hint": "Un símbolo estrecho sigue al sol.",
+        "x": 30,
+        "y": 24
+      },
+      {
+        "label": "Búho",
+        "glyph": "𓅓",
+        "token": "owl",
+        "hint": "El búho se sitúa antes del glifo de cierre.",
+        "x": 48,
+        "y": 28
+      },
+      {
+        "label": "Agua",
+        "glyph": "𓈖",
+        "token": "water",
+        "hint": "Las líneas ondulantes cierran el ritual.",
+        "x": 64,
+        "y": 31
+      },
+      {
+        "label": "Vida",
+        "glyph": "☥",
+        "token": "life",
+        "hint": "Tentador, pero no pertenece a este orden.",
+        "x": 14,
+        "y": 20
+      },
+      {
+        "label": "Memoria",
+        "glyph": "𓏠",
+        "token": "memory",
+        "hint": "Reservado para la última cámara.",
+        "x": 55,
+        "y": 65
+      }
+    ],
+    "hint": "Reproduce la secuencia ritual con los signos correctos.",
+    "hints": [
+      "El disco solar abre el rito.",
+      "El junco y el búho aparecen antes del agua.",
+      "La secuencia termina con las líneas del agua."
+    ],
+    "hint_penalty": 5,
+    "expected_answer": "sun reed owl water",
+    "progress": 35,
+    "unlock_room": "sanctum",
+    "reward": {
+      "code": "stone_key",
+      "name": "Llave de Piedra",
+      "description": "Una llave tallada que activa el altar final."
+    }
+  },
+  "final_message": {
+    "title": "Mensaje Final",
+    "prompt": "Reconstruye el mensaje a partir de tus pistas.",
+    "hint": "knowledge lives through memory",
+    "hints": [
+      "Tiene exactamente cuatro palabras.",
+      "La segunda palabra es lives.",
+      "knowledge lives through memory"
+    ],
+    "hint_penalty": 10,
+    "expected_answer": "knowledge lives through memory",
+    "progress": 35,
+    "victory": true,
+    "reward": {
+      "code": "thot_archive",
+      "name": "Sello del Archivo",
+      "description": "Prueba de que el motor del conocimiento fue restaurado."
+    }
+  }
+}

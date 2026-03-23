@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="hero-wrapper">
+
+  {# ── Historia introductoria ── #}
+  <section class="panel lore">
+    <h2 class="lore-title">El Archivo Perdido de Thot</h2>
+
+    <p class="lore-verse">
+      En el año trigésimo del reinado de Ramsés, una tormenta de arena sepultó
+      la Gran Sala del Archivo bajo metros de polvo dorado.
+      Con ella desapareció el Mensaje Sagrado de Thot &mdash; el dios de la sabiduría &mdash;
+      el único texto que mantenía vivo el equilibrio del conocimiento en el Antiguo Egipto.
+    </p>
+
+    <p class="lore-verse">
+      Han pasado siglos. Una expedición ha reabierto las cámaras selladas y tú,
+      <em>el más hábil de los escribas</em>, has sido convocado para descender
+      a las profundidades del archivo y restaurar el mensaje antes de que caiga en el olvido eterno.
+    </p>
+
+    <h3 class="lore-subtitle">¿Qué debes hacer?</h3>
+    <ol class="lore-steps">
+      <li>Explora las <strong>tres cámaras</strong> del archivo siguiendo las pistas grabadas en las paredes.</li>
+      <li>Resuelve los <strong>enigmas jeroglíficos</strong>: descifra secuencias de símbolos pulsando las tablillas en el orden correcto.</li>
+      <li>Recoge los <strong>objetos rituales</strong> que irás encontrando; te guiarán hacia el mensaje final.</li>
+      <li>Cuando hayas reunido todas las claves, <strong>reconstruye el Mensaje de Thot</strong> para completar tu misión.</li>
+    </ol>
+
+    <p class="lore-warning">
+      &#9888; Cada pista que solicites te costará progreso. Avanza con sabiduría.
+    </p>
+  </section>
+
+  {# ── Formulario de inicio ── #}
+  <section class="panel hero">
+    <h2>Bienvenido, Explorador</h2>
+
+    <form method="post" action="{{ url_for('game.new_game') }}" class="stack">
+      <label for="player_name">Nombre del jugador</label>
+      <input id="player_name" name="player_name" type="text" value="Aprendiz" maxlength="80" required>
+      <button type="submit">Nueva Partida</button>
+    </form>
+
+    {% if has_game %}
+      <a class="button secondary" href="{{ url_for('game.continue_game') }}">Continuar</a>
+    {% endif %}
+  </section>
+
+</div>
+
+{% endblock %}

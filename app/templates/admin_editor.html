@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="panel">
+  <h2>Editor de Contenido</h2>
+  <p>Edita el JSON y guarda para actualizar salas y enigmas sin modificar código Python.</p>
+</section>
+
+<section class="layout editor-layout">
+  <article class="panel">
+    <h3>Salas (data/rooms.json)</h3>
+    <form method="post" action="{{ url_for('admin.save_rooms_content') }}" class="stack">
+      <label for="rooms_json">JSON de salas</label>
+      <textarea id="rooms_json" name="rooms_json" rows="24" spellcheck="false">{{ rooms_json }}</textarea>
+      <button type="submit">Guardar Salas</button>
+    </form>
+  </article>
+
+  <article class="panel">
+    <h3>Enigmas (data/puzzles.json)</h3>
+    <form method="post" action="{{ url_for('admin.save_puzzles_content') }}" class="stack">
+      <label for="puzzles_json">JSON de enigmas</label>
+      <textarea id="puzzles_json" name="puzzles_json" rows="24" spellcheck="false">{{ puzzles_json }}</textarea>
+      <button type="submit">Guardar Enigmas</button>
+    </form>
+  </article>
+</section>
+{% endblock %}

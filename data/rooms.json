@@ -1,0 +1,60 @@
+{
+  "archives": {
+    "title": "Gran Sala del Archivo",
+    "description": "La cámara principal alberga la tablilla original con los símbolos que guían toda la misión.",
+    "tablet_image": "img/tablilla.jpeg",
+    "tablet_alt": "Tablilla de jeroglíficos con grupos de símbolos que sirven de referencia.",
+    "clues": [
+      "Usa la tablilla como diccionario para todos los símbolos.",
+      "Algunas marcas se repiten con ligeras variantes; compara las filas con atención.",
+      "Tu primera traducción abrirá la cámara ritual."
+    ],
+    "puzzle_code": "glyph_translator",
+    "links": [
+      {
+        "code": "ritual",
+        "label": "Cámara Ritual"
+      }
+    ]
+  },
+  "ritual": {
+    "title": "Cámara Ritual",
+    "description": "Los obeliscos reflejan símbolos tallados en los márgenes de la tablilla.",
+    "tablet_image": "img/tablilla.jpeg",
+    "tablet_alt": "Una lectura atenta de la tablilla ayuda a resolver el orden ritual.",
+    "clues": [
+      "Lee los símbolos en secuencia de izquierda a derecha.",
+      "El orden comienza con el glifo del sol.",
+      "La secuencia correcta te entregará una llave de piedra."
+    ],
+    "puzzle_code": "ritual_sequence",
+    "links": [
+      {
+        "code": "archives",
+        "label": "Gran Sala del Archivo"
+      },
+      {
+        "code": "sanctum",
+        "label": "Santuario Final"
+      }
+    ]
+  },
+  "sanctum": {
+    "title": "Santuario Final",
+    "description": "El altar final pide el mensaje completo extraído de todas las notas de la tablilla.",
+    "tablet_image": "img/tablilla.jpeg",
+    "tablet_alt": "Revisión final de la tablilla antes de introducir la frase de victoria.",
+    "clues": [
+      "Reconstruye la frase combinando las pistas de cada enigma resuelto.",
+      "La respuesta final tiene cuatro palabras.",
+      "Revisa la tablilla antes de confirmar el último input."
+    ],
+    "puzzle_code": "final_message",
+    "links": [
+      {
+        "code": "ritual",
+        "label": "Cámara Ritual"
+      }
+    ]
+  }
+}

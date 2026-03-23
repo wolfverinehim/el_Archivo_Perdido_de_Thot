@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="layout">
+  <article class="panel">
+    <h2>{{ puzzle.title }}</h2>
+    <p>{{ puzzle.prompt }}</p>
+    <p class="hint">Pista: {{ puzzle.hint }}</p>
+
+    {% if puzzle.tablet_image and puzzle.hotspots %}
+      <section
+        class="tablet-board"
+        data-answer-input="answer"
+        data-strict-sequence="{{ 'true' if puzzle.strict_sequence else 'false' }}"
+        data-expected-sequence='{{ (puzzle.expected_sequence or []) | tojson }}'
+        data-sequence-mode="{{ puzzle.sequence_mode or 'guided' }}"
+      >
+        <div class="tablet-stage">
+          <img
+            src="{{ url_for('static', filename=puzzle.tablet_image) }}"
+            alt="{{ puzzle.tablet_alt or 'Puzzle tablet reference' }}"
+            class="tablet-image"
+          >
+
+          {% for spot in puzzle.hotspots %}
+            <button
+              type="button"
+              class="hotspot"
+              style="left: {{ spot.x }}%; top: {{ spot.y }}%;"
+              data-token="{{ spot.token }}"
+              data-glyph="{{ spot.glyph or spot.label }}"
+              data-spot-hint="{{ spot.hint or '' }}"
+              aria-label="{{ spot.label }}"
+              title="{{ spot.label }}"
+            >
+              <span class="hotspot-glyph" aria-hidden="true">{{ spot.glyph or spot.label }}</span>
+            </button>
+          {% endfor %}
+        </div>
+
+        {% if puzzle.strict_sequence and puzzle.expected_sequence %}
+          <p class="sequence-note">
+            Pulsa los símbolos en el orden exacto para desbloquear la frase.
+            {% if puzzle.sequence_mode == 'hard' %}
+              Modo difícil activo: sin indicación del siguiente símbolo.
+            {% else %}
+              Los símbolos usados se bloquean y el siguiente esperado queda resaltado.
+            {% endif %}
+          </p>
+        {% endif %}
+
+        <p class="sequence-feedback" data-sequence-feedback aria-live="polite"></p>
+        <p class="spot-hint" data-spot-hint-text aria-live="polite"></p>
+        <div class="glyph-answer-wrap">
+          <p class="glyph-answer-label">Secuencia compuesta</p>
+          <div class="glyph-answer" data-answer-preview aria-live="polite"></div>
+          <p class="glyph-answer-help">Los signos elegidos se irán componiendo aquí con los símbolos de la tablilla.</p>
+        </div>
+
+        <div class="hotspot-controls">
+          <button type="button" class="button secondary" data-hotspot-action="undo">Deshacer</button>
+          <button type="button" class="button secondary" data-hotspot-action="clear">Limpiar</button>
+        </div>
+      </section>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('game.submit_puzzle', puzzle_code=puzzle_code) }}" class="stack">
+      {% if puzzle.tablet_image and puzzle.hotspots %}
+        <label for="answer" class="visually-hidden">Tu respuesta</label>
+        <input id="answer" name="answer" type="hidden" required>
+      {% else %}
+        <label for="answer">Tu respuesta</label>
+        <input id="answer" name="answer" type="text" required>
+      {% endif %}
+      <button type="submit">Validar</button>
+    </form>
+
+    <form method="post" action="{{ url_for('game.request_hint', puzzle_code=puzzle_code) }}" class="stack">
+      <button type="submit" class="button secondary">Pedir pista (penalización de progreso)</button>
+    </form>
+  </article>
+
+  <aside class="panel inventory">
+    <h3>Inventario</h3>
+    {% if inventory %}
+      <ul>
+        {% for item in inventory %}
+          <li>
+            <strong>{{ item.name }}</strong>
+            <p>{{ item.description }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Aún no tienes objetos.</p>
+    {% endif %}
+  </aside>
+</section>
+{% endblock %}

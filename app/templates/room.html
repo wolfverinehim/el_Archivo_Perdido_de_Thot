@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="layout">
+  <article class="panel room">
+    <h2>{{ room.title }}</h2>
+    <p>{{ room.description }}</p>
+
+    {% if room.tablet_image %}
+      <figure class="tablet-figure">
+        <img src="{{ url_for('static', filename=room.tablet_image) }}" alt="{{ room.tablet_alt or 'Symbol tablet' }}" class="tablet-image">
+        <figcaption>Tablilla de referencia para esta sala.</figcaption>
+      </figure>
+    {% endif %}
+
+    <h3>Pistas</h3>
+    <ul>
+      {% for clue in room.clues %}
+        <li>{{ clue }}</li>
+      {% endfor %}
+    </ul>
+
+    {% if room.puzzle_code %}
+      <a class="button" href="{{ url_for('game.puzzle', puzzle_code=room.puzzle_code) }}">Abrir Enigma</a>
+    {% endif %}
+
+    {% if room.links %}
+      <h3>Caminos</h3>
+      <div class="button-row">
+        {% for link in room.links %}
+          {% if link.code in unlocked %}
+            <a class="button secondary" href="{{ url_for('game.room', room_code=link.code) }}">{{ link.label }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if victory %}
+      <div class="victory">¡Misión completada! El motor del conocimiento está activo.</div>
+    {% endif %}
+  </article>
+
+  <aside class="panel inventory">
+    <h3>Inventario</h3>
+    {% if inventory %}
+      <ul>
+        {% for item in inventory %}
+          <li>
+            <strong>{{ item.name }}</strong>
+            <p>{{ item.description }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Aún no tienes objetos.</p>
+    {% endif %}
+  </aside>
+</section>
+{% endblock %}
