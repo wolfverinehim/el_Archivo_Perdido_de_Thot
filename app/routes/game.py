@@ -272,6 +272,7 @@ def room(room_code):
         "room.html",
         room=room_data,
         room_code=room_code,
+        player_id=savegame.player_id,
         room_hunt=room_hunt,
         room_bg_image=room_bg_image,
         inventory=inventory,

@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
 {% block content %}
-<section class="layout" data-room="{{ room_code }}">
+<section class="layout" data-room="{{ room_code }}" data-player-id="{{ player_id }}"{% if room.narration_audio %} data-narration-audio="{{ url_for('static', filename=room.narration_audio) }}"{% endif %}{% if victory and room_code == 'sanctum' %} data-final-locution-audio="{{ url_for('static', filename='audio/locucion_final.mp3') }}"{% endif %}>
   <article class="panel room">
 
     {% if room.narrative %}
@@ -9,6 +9,14 @@
       <span class="narrative-glyph" aria-hidden="true">𓂀</span>
       <p>{{ room.narrative }}</p>
     </div>
+    {% endif %}
+
+    {% if room.narration_audio %}
+    <button type="button" class="narration-play-btn" id="room-narration-btn"
+            aria-label="Escuchar la narración de esta sala">
+      <span class="narration-play-icon">▶</span>
+      <span class="narration-play-label">Escuchar la narración</span>
+    </button>
     {% endif %}
 
     <h2>{{ room.title }}</h2>
@@ -156,3 +164,5 @@
   </aside>
 </section>
 {% endblock %}
+
+{% block extra_scripts %}{% endblock %}

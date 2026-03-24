@@ -940,10 +940,141 @@ function initRoomHunts(root = document) {
   });
 }
 
+// ── Narración de sala ─────────────────────────────────────────────────────────
+// La URL de narración viene en data-narration-audio del section.layout.
+// Se inicializa tanto en carga inicial como tras cada navegación parcial.
+function initRoomNarration(root) {
+  var layout      = root.querySelector("[data-room]");
+  if (!layout) return;
+  var narrationUrl = layout.dataset.narrationAudio;
+  if (!narrationUrl) return;
+  var roomCode    = layout.dataset.room;
+  var ea          = window.egyptAudio;
+  if (!ea) return;
+
+  var heardKey   = "egyptRoomNarV2_" + roomCode;
+  var btn        = root === document
+    ? document.getElementById("room-narration-btn")
+    : root.querySelector("#room-narration-btn, .narration-play-btn");
+  var btnIcon    = btn && btn.querySelector(".narration-play-icon");
+  var btnLabel   = btn && btn.querySelector(".narration-play-label");
+  var audio      = document.getElementById("bg-music");
+  var narrating  = false;
+
+  // Limpiar listener automático previo (si el usuario navegó de una sala a otra)
+  if (window._onFirstRoomNarration) {
+    document.removeEventListener("click",   window._onFirstRoomNarration);
+    document.removeEventListener("keydown", window._onFirstRoomNarration);
+    window._onFirstRoomNarration = null;
+    window._egyptRoomNarrationPending = false;
+  }
+
+  function setBtn(active) {
+    narrating = active;
+    if (btnIcon)  btnIcon.textContent  = active ? "⏸" : "▶";
+    if (btnLabel) btnLabel.textContent = active ? "Pausar narración" : "Escuchar la narración";
+  }
+
+  function onNarrationEnd() {
+    setBtn(false);
+    localStorage.setItem(heardKey, "true");
+  }
+
+  function removeAutoListeners() {
+    if (window._onFirstRoomNarration) {
+      document.removeEventListener("click",   window._onFirstRoomNarration);
+      document.removeEventListener("keydown", window._onFirstRoomNarration);
+      window._onFirstRoomNarration = null;
+    }
+    window._egyptRoomNarrationPending = false;
+  }
+
+  function playRoomNarration() {
+    removeAutoListeners();
+    ea.playNarration(narrationUrl, onNarrationEnd);
+    setBtn(true);
+  }
+
+  // Botón individual de la sala
+  if (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      removeAutoListeners();
+      if (narrating && audio && !audio.paused) {
+        ea.stop();
+        setBtn(false);
+      } else {
+        playRoomNarration();
+      }
+    });
+
+    // Sincronizar botón si el audio se pausa desde el control global
+    if (audio) {
+      audio.addEventListener("pause", function () { if (narrating) setBtn(false); });
+    }
+  }
+
+  // Auto-arranque en primera visita (primer clic/tecla en cualquier parte)
+  if (localStorage.getItem(heardKey) !== "true") {
+    window._egyptRoomNarrationPending = true;
+    window._onFirstRoomNarration = function onFirstAuto(e) {
+      if (btn && (e.target === btn || btn.contains(e.target))) return;
+      playRoomNarration();
+    };
+    document.addEventListener("click",   window._onFirstRoomNarration);
+    document.addEventListener("keydown", window._onFirstRoomNarration);
+  }
+}
+
+function initVictoryLocution(root) {
+  var layout = root.querySelector("[data-room]");
+  if (!layout) return;
+
+  var finalLocutionUrl = layout.dataset.finalLocutionAudio;
+  if (!finalLocutionUrl) return;
+  var playerId = layout.dataset.playerId || "global";
+
+  var ea = window.egyptAudio;
+  if (!ea) return;
+
+  var heardKey = "egyptFinalLocutionV2_" + playerId;
+  if (localStorage.getItem(heardKey) === "true") return;
+
+  function clearFinalListeners() {
+    if (window._onFirstFinalLocution) {
+      document.removeEventListener("click", window._onFirstFinalLocution, true);
+      document.removeEventListener("keydown", window._onFirstFinalLocution, true);
+      window._onFirstFinalLocution = null;
+    }
+    window._egyptRoomNarrationPending = false;
+  }
+
+  // Si hay auto-narración de sala pendiente, la cancelamos para priorizar la locución final.
+  if (window._onFirstRoomNarration) {
+    document.removeEventListener("click", window._onFirstRoomNarration);
+    document.removeEventListener("keydown", window._onFirstRoomNarration);
+    window._onFirstRoomNarration = null;
+  }
+
+  window._egyptRoomNarrationPending = true;
+  window._onFirstFinalLocution = function onFirstFinalLocution() {
+    clearFinalListeners();
+    ea.playNarration(finalLocutionUrl, function () {
+      localStorage.setItem(heardKey, "true");
+    });
+  };
+
+  // Captura para disparar incluso si otros handlers hacen stopPropagation.
+  document.addEventListener("click", window._onFirstFinalLocution, true);
+  document.addEventListener("keydown", window._onFirstFinalLocution, true);
+}
+
 function initPage(root = document) {
   initAlerts(root);
   initTabletBoards(root);
   initRoomHunts(root);
+  initRoomNarration(root);
+  initVictoryLocution(root);
 }
 
 function replaceAppRegions(nextDocument) {

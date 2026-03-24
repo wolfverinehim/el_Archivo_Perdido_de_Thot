@@ -2,6 +2,7 @@
   "archives": {
     "title": "Gran Sala del Archivo",
     "narrative": "Llevas años buscando este lugar. La Gran Sala del Archivo de Thot se extiende ante ti: columnas de papiro reseco, paredes cubiertas de jeroglíficos y, en el centro, la legendaria tablilla que preserva el saber de los dioses. El dios ibis te ha dejado un mensaje cifrado entre los símbolos. Solo quien sepa leer el lenguaje divino podrá continuar hacia las cámaras más profundas.",
+    "narration_audio": "audio/gran_sala_del_archivo.mp3",
     "description": "La cámara principal alberga la tablilla original de Thot. Sus jeroglíficos forman la primera lección: aprende el alfabeto de los dioses antes de adentrarte más.",
     "tablet_image": "img/tablilla.jpeg",
     "tablet_alt": "Tablilla de jeroglíficos con grupos de símbolos que sirven de referencia.",
@@ -37,6 +38,7 @@
   "ritual": {
     "title": "Cámara Ritual",
     "narrative": "El fragmento de tablilla que llevas contigo vibra al cruzar el umbral de piedra. La Cámara Ritual estaba sellada desde la época de los grandes faraones. Sus obeliscos graban en roca el orden sagrado de los ritos solares. En la oscilante luz de las antorchas, Thot te habla desde las paredes: «El orden correcto despierta a los dioses dormidos; el orden incorrecto los enfurece sin remedio.»",
+    "narration_audio": "audio/camara_ritual.mp3",
     "description": "Los obeliscos de la Cámara Ritual reflejan la secuencia solar que debes recitar. Aquí no hay guía: el conocimiento que has adquirido debe bastarte.",
     "tablet_image": "img/tablilla.jpeg",
     "tablet_alt": "Una lectura atenta de la tablilla ayuda a resolver el orden ritual.",
@@ -76,6 +78,7 @@
   "sanctum": {
     "title": "Santuario Final",
     "narrative": "Te detienes en el umbral del Santuario Final. El aire huele a mirra y a tiempo detenido. La Llave de Piedra encaja en el altar con un sonido sordo y ancestral que resuena en todo el complejo. Todo el conocimiento de Thot converge en este instante. En la tablilla central, tallada en oro puro, aparece la última secuencia sagrada: cuatro símbolos que forman el mensaje eterno del dios del saber. Solo quien los comprenda de verdad podrá despertar el Archivo.",
+    "narration_audio": "audio/santuario_final.mp3",
     "description": "El altar final aguarda la secuencia definitiva. Combina lo aprendido en el Archivo y en la Cámara Ritual para componer el mensaje eterno de Thot.",
     "tablet_image": "img/tablilla.jpeg",
     "tablet_alt": "Revisión final de la tablilla antes de componer la secuencia de victoria.",

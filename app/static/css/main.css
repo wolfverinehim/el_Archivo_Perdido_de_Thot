@@ -16,7 +16,7 @@ body {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
   color: var(--ink);
-  background-image: url('../img/egypt_bg.svg');
+  background-image: url('../img/hero_entrada.png');
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
@@ -149,6 +149,43 @@ main {
   margin-bottom: 1rem;
 }
 
+/* ── Botón de narración de entrada ── */
+.narration-play-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  margin: 0 0 1.2rem;
+  padding: 0.75rem 1.2rem;
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.narration-play-btn:hover,
+.narration-play-btn:focus-visible {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.30), rgba(212, 175, 55, 0.12));
+  box-shadow: 0 0 0 3px rgba(173, 123, 40, 0.35);
+  outline: none;
+}
+
+.narration-play-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.narration-play-label {
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
 .global-music-player {
   position: fixed;
   right: 1rem;
@@ -170,11 +207,6 @@ main {
   font-size: 1rem;
   width: 100%;
   animation: music-pulse 2s ease-in-out infinite;
-}
-
-.music-native {
-  width: 100%;
-  margin-top: 0.7rem;
 }
 
 .music-status {

@@ -42,33 +42,29 @@
       <span id="music-label">Pulsa para escuchar la música</span>
     </button>
     <p id="music-status" class="music-status">Estado: esperando interacción del navegador.</p>
-    <audio id="bg-music-controls" class="music-native" controls preload="none">
-      <source src="{{ url_for('static', filename='audio/egypt_theme.mp3') }}" type="audio/mpeg">
-    </audio>
   </aside>
 
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   <script>
-    (function () {
-      const audio = document.getElementById('bg-music');
-      const nativeControls = document.getElementById('bg-music-controls');
-      const btn = document.getElementById('music-toggle');
-      const label = document.getElementById('music-label');
-      const icon = document.getElementById('music-icon');
+    window.egyptAudio = (function () {
+      const audio  = document.getElementById('bg-music');
+      const btn    = document.getElementById('music-toggle');
+      const label  = document.getElementById('music-label');
+      const icon   = document.getElementById('music-icon');
       const status = document.getElementById('music-status');
-      const musicEnabledKey = 'egyptMusicOn';
-      const musicTimeKey = 'egyptMusicTime';
-      const musicVolumeKey = 'egyptMusicVolume';
+
+      const narrationSrc    = "{{ url_for('static', filename='audio/audio_entrada.mp3') }}";
+      const themeUrl        = "{{ url_for('static', filename='audio/egypt_theme.mp3') }}";
+      const narrationHeardKey = 'egyptNarrationHeard';
+      const musicEnabledKey   = 'egyptMusicOn';
+      const musicTimeKey      = 'egyptMusicTime';
+      const musicVolumeKey    = 'egyptMusicVolume';
       let playing = false;
 
-      audio.muted = false;
-
-      function setStatus(message, kind) {
-        status.textContent = 'Estado: ' + message;
+      function setStatus(msg, kind) {
+        status.textContent = 'Estado: ' + msg;
         status.classList.remove('ok', 'warn', 'error');
-        if (kind) {
-          status.classList.add(kind);
-        }
+        if (kind) status.classList.add(kind);
       }
 
       function persistState() {
@@ -78,127 +74,110 @@
         localStorage.setItem(musicVolumeKey, String(audio.volume));
       }
 
-      function syncButtonState() {
+      function syncMusicBtn() {
         if (playing) {
           label.textContent = 'Música activa — pulsa para silenciar';
-          icon.textContent = '♫';
+          icon.textContent  = '♫';
           btn.classList.remove('music-btn--pulse');
         } else {
           label.textContent = 'Pulsa para escuchar la música';
-          icon.textContent = '♪';
+          icon.textContent  = '♪';
           btn.classList.add('music-btn--pulse');
         }
       }
 
-      function restoreTime() {
+      function playTheme() {
+        audio.loop = true;
+        audio.src  = themeUrl;
+        audio.load();
+        audio.volume = Number(localStorage.getItem(musicVolumeKey) || '0.5');
         const savedTime = Number(sessionStorage.getItem(musicTimeKey) || '0');
-        if (!Number.isNaN(savedTime) && savedTime > 0) {
-          audio.currentTime = savedTime;
-          nativeControls.currentTime = savedTime;
-        }
-      }
-
-      function syncControlTrackTime() {
-        if (!Number.isNaN(audio.currentTime)) {
-          nativeControls.currentTime = audio.currentTime;
-        }
-      }
-
-      function startMusic() {
-        audio.volume = Number(localStorage.getItem(musicVolumeKey) || '0.35');
-        audio.muted = false;
-        nativeControls.volume = audio.volume;
-        return audio.play().then(() => {
+        if (!Number.isNaN(savedTime) && savedTime > 0) audio.currentTime = savedTime;
+        return audio.play().then(function () {
           playing = true;
           localStorage.setItem(musicEnabledKey, 'true');
-          syncButtonState();
+          syncMusicBtn();
           setStatus('reproduciendo.', 'ok');
-          syncControlTrackTime();
-        }).catch(() => {
-          setStatus('el navegador ha bloqueado la reproducción automática. Usa el reproductor inferior.', 'warn');
+        }).catch(function () {
+          setStatus('bloqueado por el navegador.', 'warn');
         });
       }
 
-      function stopMusic() {
+      function playNarration(narrationUrl, onEnd) {
+        // Si narrationUrl es función es la firma antigua (onEnd sin url)
+        if (typeof narrationUrl === 'function') { onEnd = narrationUrl; narrationUrl = narrationSrc; }
+        if (!narrationUrl) narrationUrl = narrationSrc;
+        audio.loop = false;
+        audio.src  = narrationUrl;
+        audio.load();
+        // Mantener volumen actual; si no había volumen previo usar 0.85
+        if (audio.volume < 0.05) audio.volume = 0.85;
+        audio.addEventListener('ended', function () {
+          if (narrationUrl === narrationSrc) localStorage.setItem(narrationHeardKey, 'true');
+          if (onEnd) onEnd();
+          playTheme();
+        }, { once: true });
+        return audio.play().then(function () {
+          playing = true;
+          setStatus('narrando...', 'ok');
+        }).catch(function () {
+          setStatus('bloqueado por el navegador.', 'warn');
+        });
+      }
+
+      // Arranque principal: narración si no se ha oído nunca, música si ya se oyó
+      function start() {
+        if (localStorage.getItem(narrationHeardKey) !== 'true') {
+          return playNarration();
+        }
+        return playTheme();
+      }
+
+      function stop() {
         audio.pause();
         playing = false;
         localStorage.setItem(musicEnabledKey, 'false');
         persistState();
-        syncButtonState();
+        syncMusicBtn();
         setStatus('pausada.', 'warn');
       }
 
+      // Botón de música global
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (playing) { stop(); } else { start(); }
+      });
+
+      // Reanudar al primer clic/tecla si el usuario tenía la música activada
       function onFirstInteraction() {
-        document.removeEventListener('click', onFirstInteraction);
+        document.removeEventListener('click',   onFirstInteraction);
         document.removeEventListener('keydown', onFirstInteraction);
+        // Si hay narración de sala pendiente, dejarla actuar primero
+        if (window._egyptRoomNarrationPending) return;
         if (localStorage.getItem(musicEnabledKey) === 'true' && !playing) {
-          startMusic();
+          start();
         }
       }
-
-      syncButtonState();
-      restoreTime();
-
-      document.addEventListener('click', onFirstInteraction);
+      document.addEventListener('click',   onFirstInteraction);
       document.addEventListener('keydown', onFirstInteraction);
 
-      btn.addEventListener('click', function (event) {
-        event.stopPropagation();
-        if (playing) {
-          stopMusic();
-        } else {
-          startMusic();
-        }
-      });
-
-      nativeControls.addEventListener('play', function () {
-        if (!Number.isNaN(nativeControls.currentTime) && nativeControls.currentTime > 0) {
-          audio.currentTime = nativeControls.currentTime;
-        }
-        nativeControls.pause();
-        localStorage.setItem(musicEnabledKey, 'true');
-        startMusic();
-        setStatus('reproduciendo y persistiendo entre pantallas.', 'ok');
-      });
-
-      nativeControls.addEventListener('pause', function () {
-        persistState();
-        setStatus('control nativo en pausa.', 'warn');
-      });
-
-      nativeControls.addEventListener('volumechange', function () {
-        localStorage.setItem(musicVolumeKey, String(nativeControls.volume));
-        audio.volume = nativeControls.volume;
-      });
-
-      audio.addEventListener('play', function () {
-        playing = true;
-        syncButtonState();
-      });
-
-      audio.addEventListener('pause', function () {
-        if (playing) {
-          playing = false;
-          syncButtonState();
-        }
-      });
-
+      // Eventos del elemento audio
+      audio.addEventListener('play',  function () { playing = true;  syncMusicBtn(); });
+      audio.addEventListener('pause', function () { if (playing) { playing = false; syncMusicBtn(); } });
       audio.addEventListener('timeupdate', persistState);
-      audio.addEventListener('canplaythrough', function () {
-        if (!playing) {
-          setStatus('audio cargado y listo.', 'ok');
-        }
-      });
-      audio.addEventListener('error', function () {
-        setStatus('error al cargar el audio.', 'error');
-      });
-
+      audio.addEventListener('canplaythrough', function () { if (!playing) setStatus('listo.', 'ok'); });
+      audio.addEventListener('error', function () { setStatus('error al cargar el audio.', 'error'); });
       window.addEventListener('pagehide', persistState);
 
+      syncMusicBtn();
+
       if (localStorage.getItem(musicEnabledKey) === 'true') {
-        startMusic().catch(() => {});
+        start().catch(function () {});
       }
+
+      return { playNarration: playNarration, playTheme: playTheme, start: start, stop: stop };
     })();
   </script>
+  {% block extra_scripts %}{% endblock %}
 </body>
 </html>
