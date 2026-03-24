@@ -979,6 +979,7 @@ button,
   overflow: hidden;
   display: flex;
   align-items: stretch;
+  perspective: 700px;
 }
 
 .room-scene-bg {
@@ -991,6 +992,18 @@ button,
   object-position: center;
   display: block;
   z-index: 1;
+  transition: transform 220ms ease-out;
+}
+
+.room-scene-light {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--light-x, 50%) var(--light-y, 50%), rgba(255, 241, 181, 0.22), rgba(255, 241, 181, 0) 48%);
+  mix-blend-mode: screen;
+  transition: opacity 180ms ease;
+  opacity: 0.9;
 }
 
 .room-scene-objects {
@@ -1004,13 +1017,13 @@ button,
 
 .scene-object {
   position: absolute;
-  transform: translate(-50%, -50%);
-  min-width: 90px;
-  min-height: 80px;
+  transform: translate(-50%, -50%) rotate(var(--obj-rotate, 0deg)) scale(var(--obj-depth, 1));
+  width: var(--obj-size, 96px);
+  min-height: 72px;
   border: 2px solid #d8b777;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(250, 229, 168, 0.95), rgba(206, 163, 82, 0.92));
-  color: #2f1c04;
+  background: linear-gradient(135deg, rgba(123, 88, 30, 0.7), rgba(83, 60, 18, 0.72));
+  color: #fce8b5;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1020,18 +1033,20 @@ button,
   cursor: pointer;
   transition: all 0.25s ease;
   font-family: Georgia, serif;
-  backdrop-filter: blur(1px);
-  box-shadow: 0 4px 12px rgba(47, 28, 4, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(0.8px);
+  box-shadow: 0 4px 14px rgba(27, 15, 4, 0.42), inset 0 1px 0 rgba(255, 246, 211, 0.2);
   z-index: 10;
+  opacity: 0.84;
 }
 
 /* En sala Archives: tarjeta didáctica con glifo + traducción */
 .scene-object--label {
   min-width: 80px;
   min-height: 70px;
-  background: linear-gradient(160deg, rgba(255, 243, 200, 0.97), rgba(225, 185, 100, 0.94));
+  background: linear-gradient(160deg, rgba(219, 176, 94, 0.9), rgba(171, 122, 42, 0.9));
   border-color: #c09430;
-  box-shadow: 0 3px 10px rgba(47, 28, 4, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 3px 10px rgba(47, 28, 4, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  opacity: 0.95;
 }
 
 .scene-object-glyph {
@@ -1044,19 +1059,21 @@ button,
 }
 
 .scene-object-name {
-  font-size: 0.82rem;
+  font-size: 0.73rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-align: center;
+  text-shadow: 0 1px 2px rgba(19, 10, 3, 0.48);
 }
 
 .scene-object:hover,
 .scene-object:focus-visible {
-  box-shadow: 0 0 0 4px rgba(245, 215, 136, 0.7), 0 8px 16px rgba(47, 28, 4, 0.4);
-  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 0 0 4px rgba(245, 215, 136, 0.82), 0 8px 16px rgba(47, 28, 4, 0.48);
+  transform: translate(-50%, -50%) rotate(var(--obj-rotate, 0deg)) scale(calc(var(--obj-depth, 1) + 0.07));
   border-color: #f5d788;
-  background: linear-gradient(135deg, rgba(255, 239, 190, 0.98), rgba(220, 180, 110, 0.95));
+  background: linear-gradient(135deg, rgba(228, 188, 107, 0.96), rgba(173, 130, 58, 0.96));
+  opacity: 1;
 }
 
 .scene-object.is-correct {
@@ -1087,6 +1104,12 @@ button,
   font-size: 0.92rem;
 }
 
+.room-hunt-tip {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #704b17;
+}
+
 .room-hunt-feedback.success {
   color: #1f6132;
 }
@@ -1108,6 +1131,13 @@ button,
   border-top: 1px solid #d4af37;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .room-scene-bg,
+  .scene-object {
+    transition: none;
+  }
+}
+
 /* ── Dashboard admin ── */
 .admin-list {
   list-style: none;
@@ -1126,5 +1156,4 @@ button,
 
 .admin-list p {
   margin: 0.2rem 0;
-}
 }

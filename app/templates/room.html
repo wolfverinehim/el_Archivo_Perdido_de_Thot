@@ -31,7 +31,9 @@
           class="room-scene"
           data-hunt-target-token="{{ room_hunt.target_token }}"
           data-hunt-claimed="{{ 'true' if room_hunt.claimed else 'false' }}"
+          data-room-parallax
         >
+          <div class="room-scene-light" aria-hidden="true"></div>
           <!-- Fondo visual de la sala -->
           <img 
             src="{{ room_bg_image }}" 
@@ -46,17 +48,18 @@
             <button
               type="button"
               class="scene-object{% if room_code == 'archives' %} scene-object--label{% endif %}"
-              style="left: {{ obj.x }}%; top: {{ obj.y }}%;"
+              style="left: {{ obj.x }}%; top: {{ obj.y }}%; --obj-size: {{ obj.size }}px; --obj-rotate: {{ obj.rotation }}deg; --obj-depth: {{ obj.depth }};"
               data-hunt-token="{{ obj.token }}"
+              data-object-hint="{{ obj.hint }}"
               {% if room_hunt.claimed %}disabled{% endif %}
-              title="{{ obj.glyph }} — {{ obj.label }}: {{ obj.name }}"
+              title="{{ obj.glyph }} — {{ obj.label }} · {{ obj.hint }}"
             >
               {% if room_code == 'archives' %}
-                {# En el archivo mostramos glifo + su traducción para familiarizarse #}
+                {# En el archivo mostramos glifo + traducción para familiarizarse #}
                 <span class="scene-object-glyph" aria-hidden="true">{{ obj.glyph }}</span>
                 <span class="scene-object-name">{{ obj.label }}</span>
               {% else %}
-                {# En otras salas mostramos solo el glifo como hotspot de búsqueda #}
+                {# En otras salas mostramos glifo y nombre del objeto oculto #}
                 <span class="scene-object-glyph" aria-hidden="true">{{ obj.glyph }}</span>
                 <span class="scene-object-name">{{ obj.name }}</span>
               {% endif %}
@@ -65,6 +68,7 @@
         </div>
 
         <div class="room-hunt-results">
+          <p class="room-hunt-tip">Pista de exploración: pasa el cursor para iluminar zonas y pulsa sobre símbolos ocultos.</p>
           <p class="room-hunt-feedback" data-room-hunt-feedback aria-live="polite"></p>
 
           {% if not room_hunt.claimed %}

@@ -305,9 +305,31 @@ function initRoomHunts(root = document) {
       return;
     }
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const bg = scene.querySelector(".room-scene-bg");
+    if (!prefersReducedMotion && bg) {
+      scene.addEventListener("pointermove", (event) => {
+        const rect = scene.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        const offsetX = (x - 50) * 0.02;
+        const offsetY = (y - 50) * 0.02;
+        scene.style.setProperty("--light-x", `${x}%`);
+        scene.style.setProperty("--light-y", `${y}%`);
+        bg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1.03)`;
+      });
+
+      scene.addEventListener("pointerleave", () => {
+        bg.style.transform = "translate(0, 0) scale(1)";
+        scene.style.setProperty("--light-x", "50%");
+        scene.style.setProperty("--light-y", "50%");
+      });
+    }
+
     scene.querySelectorAll(".scene-object[data-hunt-token]").forEach((obj) => {
       obj.addEventListener("click", () => {
         const token = (obj.getAttribute("data-hunt-token") || "").trim();
+        const objectHint = (obj.getAttribute("data-object-hint") || "").trim();
         if (!token) {
           return;
         }
@@ -328,7 +350,9 @@ function initRoomHunts(root = document) {
         }
 
         obj.classList.add("is-wrong");
-        feedback.textContent = "Ese objeto no contiene el glifo objetivo. Sigue buscando en la sala.";
+        feedback.textContent = objectHint
+          ? `Ese no es. ${objectHint} Sigue buscando el glifo objetivo.`
+          : "Ese objeto no contiene el glifo objetivo. Sigue buscando en la sala.";
         feedback.classList.remove("success");
         feedback.classList.add("error");
       });

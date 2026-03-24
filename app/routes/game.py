@@ -94,48 +94,64 @@ def _get_or_create_room_hunt(savegame, state, room_code):
     if not candidate_tokens:
         candidate_tokens = list(token_map.keys())
 
-    object_names = [
-        "Altar",
-        "Vasija",
-        "Pergamino",
-        "Estatua",
-        "Cofre",
-        "Amuleto",
-    ]
-    base_positions = [
-        {"x": 12, "y": 22},   # esquina superior izquierda
-        {"x": 50, "y": 18},   # centro superior
-        {"x": 85, "y": 28},   # esquina superior derecha
-        {"x": 20, "y": 58},   # centro-bajo izquierda
-        {"x": 55, "y": 65},   # centro-bajo
-        {"x": 82, "y": 72},   # esquina inferior derecha
-    ]
+    room_layouts = {
+        "archives": [
+            {"name": "Atril de papiro", "hint": "Junto a pergaminos apilados.", "x": 16, "y": 24},
+            {"name": "Relieve de columna", "hint": "Grabado sobre piedra vertical.", "x": 44, "y": 22},
+            {"name": "Vasija sellada", "hint": "Cerca de recipientes de barro.", "x": 78, "y": 30},
+            {"name": "Mesa de copistas", "hint": "Sobre un mueble de escritura.", "x": 25, "y": 62},
+            {"name": "Cofre de archivo", "hint": "Entre cajas antiguas.", "x": 56, "y": 67},
+            {"name": "Estatua del ibis", "hint": "A los pies de una figura divina.", "x": 82, "y": 74},
+        ],
+        "ritual": [
+            {"name": "Obelisco oriental", "hint": "Tallado en una aguja ceremonial.", "x": 13, "y": 30},
+            {"name": "Cuenco de ofrendas", "hint": "Cerca de braseros y ceniza.", "x": 40, "y": 26},
+            {"name": "Estandarte solar", "hint": "Suspendido cerca de antorchas.", "x": 75, "y": 24},
+            {"name": "Sello del altar", "hint": "Frente al círculo ritual.", "x": 24, "y": 66},
+            {"name": "Pedestal central", "hint": "Sobre piedra pulida.", "x": 54, "y": 62},
+            {"name": "Máscara ceremonial", "hint": "Oculta entre sombras del muro.", "x": 83, "y": 68},
+        ],
+        "sanctum": [
+            {"name": "Anillo del altar", "hint": "Grabado en el círculo sagrado.", "x": 17, "y": 33},
+            {"name": "Urna de mirra", "hint": "Junto al humo ritual.", "x": 43, "y": 28},
+            {"name": "Fragmento de oro", "hint": "Brilla con luz tenue.", "x": 74, "y": 27},
+            {"name": "Piedra de sello", "hint": "A ras del piso del santuario.", "x": 28, "y": 69},
+            {"name": "Losa inscrita", "hint": "Tallada con líneas antiguas.", "x": 57, "y": 65},
+            {"name": "Oráculo del muro", "hint": "Entre símbolos de la cámara final.", "x": 84, "y": 72},
+        ],
+    }
+    layout = room_layouts.get(room_code) or room_layouts["archives"]
 
     rng = random.Random(f"hunt:{savegame.player_id}:{room_code}")
+    base_positions = [{"x": item["x"], "y": item["y"]} for item in layout]
     rng.shuffle(base_positions)
 
-    if len(candidate_tokens) >= len(object_names):
-        selected_tokens = rng.sample(candidate_tokens, len(object_names))
+    if len(candidate_tokens) >= len(layout):
+        selected_tokens = rng.sample(candidate_tokens, len(layout))
     else:
-        selected_tokens = [rng.choice(candidate_tokens) for _ in object_names]
+        selected_tokens = [rng.choice(candidate_tokens) for _ in layout]
 
     target_token = rng.choice(selected_tokens)
     target_meta = token_map.get(target_token, {"glyph": target_token, "label": target_token})
 
     objects = []
-    for index, name in enumerate(object_names):
+    for index, layout_item in enumerate(layout):
         token = selected_tokens[index]
         meta = token_map.get(token, {"glyph": token, "label": token})
         pos = base_positions[index]
         objects.append(
             {
                 "id": f"{room_code}-{index}",
-                "name": name,
+                "name": layout_item["name"],
                 "token": token,
                 "glyph": meta.get("glyph") or token,
                 "label": meta.get("label") or token,
+                "hint": layout_item["hint"],
                 "x": pos["x"],
                 "y": pos["y"],
+                "size": rng.randint(82, 120),
+                "rotation": rng.randint(-18, 18),
+                "depth": round(rng.uniform(0.88, 1.15), 2),
             }
         )
 
