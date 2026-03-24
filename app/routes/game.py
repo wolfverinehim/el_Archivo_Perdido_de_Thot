@@ -94,48 +94,70 @@ def _get_or_create_room_hunt(savegame, state, room_code):
     if not candidate_tokens:
         candidate_tokens = list(token_map.keys())
 
-    object_names = [
-        "Altar",
-        "Vasija",
-        "Pergamino",
-        "Estatua",
-        "Cofre",
-        "Amuleto",
+    room_layouts = {
+        "archives": [
+            {"name": "Atril de papiros", "x": 18, "y": 20, "hint": "Junto a los papiros antiguos.", "size": 1.0, "rotation": -3, "depth": 1},
+            {"name": "Mesa de catalogación", "x": 49, "y": 24, "hint": "Sobre la mesa central del archivo.", "size": 1.05, "rotation": 1, "depth": 2},
+            {"name": "Estante sellado", "x": 80, "y": 28, "hint": "Entre los estantes polvorientos.", "size": 0.96, "rotation": 4, "depth": 1},
+            {"name": "Urna de arcilla", "x": 21, "y": 58, "hint": "Cerca de la urna en sombra.", "size": 0.9, "rotation": -5, "depth": 3},
+            {"name": "Cofre ceremonial", "x": 56, "y": 66, "hint": "Frente al cofre tallado.", "size": 1.08, "rotation": 2, "depth": 2},
+            {"name": "Lámpara votiva", "x": 83, "y": 74, "hint": "Bajo la luz temblorosa de una lámpara.", "size": 0.88, "rotation": -2, "depth": 4},
+        ],
+        "ritual": [
+            {"name": "Obelisco menor", "x": 16, "y": 22, "hint": "Al pie del obelisco con ofrendas.", "size": 1.02, "rotation": -2, "depth": 1},
+            {"name": "Pebetero", "x": 50, "y": 26, "hint": "Entre el humo del pebetero.", "size": 0.92, "rotation": 3, "depth": 2},
+            {"name": "Relieve lunar", "x": 83, "y": 30, "hint": "Grabado en un relieve de la pared.", "size": 1.0, "rotation": 0, "depth": 1},
+            {"name": "Cuenco de ofrendas", "x": 24, "y": 57, "hint": "Cerca de las ofrendas del altar.", "size": 0.9, "rotation": -4, "depth": 3},
+            {"name": "Pilar grabado", "x": 54, "y": 63, "hint": "Tallado en el pilar central.", "size": 1.07, "rotation": 2, "depth": 2},
+            {"name": "Máscara ritual", "x": 80, "y": 71, "hint": "Oculto junto a la máscara dorada.", "size": 0.95, "rotation": -1, "depth": 4},
+        ],
+        "sanctum": [
+            {"name": "Trono del sanctum", "x": 14, "y": 24, "hint": "Cerca del trono protegido.", "size": 1.1, "rotation": -2, "depth": 1},
+            {"name": "Disco solar", "x": 48, "y": 21, "hint": "Bajo el disco solar del techo.", "size": 1.05, "rotation": 3, "depth": 1},
+            {"name": "Nicho del guardián", "x": 82, "y": 27, "hint": "Dentro de un nicho lateral.", "size": 0.94, "rotation": -5, "depth": 2},
+            {"name": "Cáliz de ónice", "x": 22, "y": 59, "hint": "Junto al cáliz de ónice.", "size": 0.9, "rotation": 4, "depth": 3},
+            {"name": "Sello real", "x": 57, "y": 67, "hint": "Sobre el sello real del santuario.", "size": 1.04, "rotation": 1, "depth": 2},
+            {"name": "Sarcófago lateral", "x": 84, "y": 75, "hint": "A un lado del sarcófago.", "size": 0.92, "rotation": -3, "depth": 4},
+        ],
+    }
+    default_layout = [
+        {"name": "Altar", "x": 12, "y": 22, "hint": "Algo destaca junto al altar.", "size": 1.0, "rotation": 0, "depth": 1},
+        {"name": "Vasija", "x": 50, "y": 18, "hint": "Observa la vasija más alta.", "size": 0.95, "rotation": -2, "depth": 1},
+        {"name": "Pergamino", "x": 85, "y": 28, "hint": "Entre los pergaminos enrollados.", "size": 1.0, "rotation": 3, "depth": 2},
+        {"name": "Estatua", "x": 20, "y": 58, "hint": "La estatua mira hacia un símbolo.", "size": 1.05, "rotation": -1, "depth": 3},
+        {"name": "Cofre", "x": 55, "y": 65, "hint": "Cerca de un cofre cerrado.", "size": 1.08, "rotation": 2, "depth": 2},
+        {"name": "Amuleto", "x": 82, "y": 72, "hint": "En la esquina yace un amuleto.", "size": 0.88, "rotation": -4, "depth": 4},
     ]
-    base_positions = [
-        {"x": 12, "y": 22},   # esquina superior izquierda
-        {"x": 50, "y": 18},   # centro superior
-        {"x": 85, "y": 28},   # esquina superior derecha
-        {"x": 20, "y": 58},   # centro-bajo izquierda
-        {"x": 55, "y": 65},   # centro-bajo
-        {"x": 82, "y": 72},   # esquina inferior derecha
-    ]
+    room_layout = [dict(item) for item in room_layouts.get(room_code, default_layout)]
 
     rng = random.Random(f"hunt:{savegame.player_id}:{room_code}")
-    rng.shuffle(base_positions)
+    rng.shuffle(room_layout)
 
-    if len(candidate_tokens) >= len(object_names):
-        selected_tokens = rng.sample(candidate_tokens, len(object_names))
+    if len(candidate_tokens) >= len(room_layout):
+        selected_tokens = rng.sample(candidate_tokens, len(room_layout))
     else:
-        selected_tokens = [rng.choice(candidate_tokens) for _ in object_names]
+        selected_tokens = [rng.choice(candidate_tokens) for _ in room_layout]
 
     target_token = rng.choice(selected_tokens)
     target_meta = token_map.get(target_token, {"glyph": target_token, "label": target_token})
 
     objects = []
-    for index, name in enumerate(object_names):
+    for index, layout in enumerate(room_layout):
         token = selected_tokens[index]
         meta = token_map.get(token, {"glyph": token, "label": token})
-        pos = base_positions[index]
         objects.append(
             {
                 "id": f"{room_code}-{index}",
-                "name": name,
+                "name": layout.get("name") or f"Objeto {index + 1}",
                 "token": token,
                 "glyph": meta.get("glyph") or token,
                 "label": meta.get("label") or token,
-                "x": pos["x"],
-                "y": pos["y"],
+                "x": layout.get("x", 50),
+                "y": layout.get("y", 50),
+                "hint": layout.get("hint") or "No hay pista registrada.",
+                "size": float(layout.get("size", 1.0)),
+                "rotation": int(layout.get("rotation", 0)),
+                "depth": int(layout.get("depth", 1)),
             }
         )
 

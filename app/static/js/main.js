@@ -292,6 +292,8 @@ function initRoomHunts(root = document) {
   const hunts = root.querySelectorAll("[data-room-hunt]");
   hunts.forEach((hunt) => {
     const scene = hunt.querySelector(".room-scene[data-hunt-target-token]");
+    const sceneBg = scene ? scene.querySelector(".room-scene-bg") : null;
+    const sceneLight = scene ? scene.querySelector(".room-scene-light") : null;
     const feedback = hunt.querySelector("[data-room-hunt-feedback]");
     const foundInput = hunt.querySelector("[data-room-hunt-found]");
     const claimButton = hunt.querySelector("[data-room-hunt-claim-btn]");
@@ -301,6 +303,49 @@ function initRoomHunts(root = document) {
 
     const claimed = scene.getAttribute("data-hunt-claimed") === "true";
     const targetToken = (scene.getAttribute("data-hunt-target-token") || "").trim();
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const setScenePointer = (clientX, clientY) => {
+      const rect = scene.getBoundingClientRect();
+      if (!rect.width || !rect.height) {
+        return;
+      }
+      const x = ((clientX - rect.left) / rect.width) * 100;
+      const y = ((clientY - rect.top) / rect.height) * 100;
+
+      scene.style.setProperty("--cursor-x", `${x.toFixed(2)}%`);
+      scene.style.setProperty("--cursor-y", `${y.toFixed(2)}%`);
+
+      if (prefersReducedMotion) {
+        return;
+      }
+
+      const offsetX = (x - 50) * 0.05;
+      const offsetY = (y - 50) * 0.05;
+      if (sceneBg) {
+        sceneBg.style.transform = `translate(${(-offsetX).toFixed(2)}px, ${(-offsetY).toFixed(2)}px) scale(1.02)`;
+      }
+      if (sceneLight) {
+        sceneLight.style.transform = `translate(${offsetX.toFixed(2)}px, ${offsetY.toFixed(2)}px)`;
+      }
+    };
+
+    if (sceneBg || sceneLight) {
+      scene.addEventListener("pointermove", (event) => {
+        setScenePointer(event.clientX, event.clientY);
+      });
+      scene.addEventListener("pointerleave", () => {
+        scene.style.setProperty("--cursor-x", "50%");
+        scene.style.setProperty("--cursor-y", "40%");
+        if (sceneBg) {
+          sceneBg.style.transform = "";
+        }
+        if (sceneLight) {
+          sceneLight.style.transform = "";
+        }
+      });
+    }
+
     if (!targetToken || claimed) {
       return;
     }
@@ -328,7 +373,10 @@ function initRoomHunts(root = document) {
         }
 
         obj.classList.add("is-wrong");
-        feedback.textContent = "Ese objeto no contiene el glifo objetivo. Sigue buscando en la sala.";
+        const contextualHint = (obj.getAttribute("data-object-hint") || "").trim();
+        feedback.textContent = contextualHint
+          ? `No es ese. Pista: ${contextualHint}`
+          : "Ese objeto no contiene el glifo objetivo. Sigue buscando en la sala.";
         feedback.classList.remove("success");
         feedback.classList.add("error");
       });

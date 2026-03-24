@@ -25,6 +25,7 @@
             <strong>{{ room_hunt.target_glyph }}</strong>
             ({{ room_hunt.target_label }}).
           </p>
+          <p class="room-hunt-guide">Desliza el puntero sobre la escena para inspeccionar pistas y pulsa un hotspot para marcar tu elección.</p>
         {% endif %}
 
         <div
@@ -39,6 +40,7 @@
             class="room-scene-bg"
             loading="lazy"
           />
+          <div class="room-scene-light" aria-hidden="true"></div>
           
           <!-- Objetos interactivos -->
           <div class="room-scene-objects">
@@ -46,8 +48,9 @@
             <button
               type="button"
               class="scene-object{% if room_code == 'archives' %} scene-object--label{% endif %}"
-              style="left: {{ obj.x }}%; top: {{ obj.y }}%;"
+              style="left: {{ obj.x }}%; top: {{ obj.y }}%; --obj-size: {{ obj.size }}; --obj-rotate: {{ obj.rotation }}deg; --obj-depth: {{ obj.depth }};"
               data-hunt-token="{{ obj.token }}"
+              data-object-hint="{{ obj.hint }}"
               {% if room_hunt.claimed %}disabled{% endif %}
               title="{{ obj.glyph }} — {{ obj.label }}: {{ obj.name }}"
             >
