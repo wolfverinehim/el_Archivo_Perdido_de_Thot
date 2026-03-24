@@ -1069,12 +1069,49 @@ function initVictoryLocution(root) {
   document.addEventListener("keydown", window._onFirstFinalLocution, true);
 }
 
+function initIndexNarration(root) {
+  var ea = window.egyptAudio;
+  if (!ea) return;
+  var btn = root === document
+    ? document.getElementById("narration-play-btn")
+    : root.querySelector("#narration-play-btn");
+  if (!btn) return;
+
+  var btnIcon  = btn.querySelector(".narration-play-icon");
+  var btnLabel = btn.querySelector(".narration-play-label");
+  var audio    = document.getElementById("bg-music");
+
+  function setBtn(active) {
+    if (btnIcon)  btnIcon.textContent  = active ? "⏸" : "▶";
+    if (btnLabel) btnLabel.textContent = active ? "Pausar narración" : "Escuchar la narración";
+  }
+
+  if (audio) {
+    audio.addEventListener("pause", function () { setBtn(false); });
+    audio.addEventListener("play",  function () {
+      setBtn(audio.src && audio.src.includes("audio_entrada"));
+    });
+  }
+
+  // Clic consciente: siempre reproduce la narración de entrada, aunque ya se haya escuchado.
+  btn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (audio && !audio.paused) {
+      ea.stop();
+    } else {
+      ea.playNarration(function () { setBtn(false); });
+      setBtn(true);
+    }
+  });
+}
+
 function initPage(root = document) {
   initAlerts(root);
   initTabletBoards(root);
   initRoomHunts(root);
   initRoomNarration(root);
   initVictoryLocution(root);
+  initIndexNarration(root);
 }
 
 function replaceAppRegions(nextDocument) {

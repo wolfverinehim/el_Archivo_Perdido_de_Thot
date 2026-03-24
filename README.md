@@ -1,6 +1,6 @@
 # El Archivo Perdido de Thot
 
-Proyecto base para una aventura grafica web construida con Flask, SQLite y contenido configurable en JSON.
+Aventura grafica web de un solo jugador ambientada en el Antiguo Egipto, construida con Flask, SQLite y contenido configurable en JSON.
 
 ## Continuidad en otro PC
 
@@ -8,9 +8,7 @@ Si vas a clonar el proyecto en otra maquina para seguir el desarrollo, usa la gu
 
 - [docs/CONTINUIDAD_DESARROLLO.md](docs/CONTINUIDAD_DESARROLLO.md)
 
-## Objetivo
-
-Esta base esta preparada para crecer por modulos:
+## Funcionalidades implementadas
 
 - Rutas separadas en blueprints de juego y administracion.
 - Logica de negocio separada en servicios.
@@ -21,7 +19,10 @@ Esta base esta preparada para crecer por modulos:
 - Integracion de tablilla visual como referencia jugable por sala.
 - Exploracion de salas estilo aventura grafica con personaje movible.
 - Colisiones configurables por sala para mejorar navegacion y sensacion de mundo.
-- Pruebas iniciales para proteger comportamiento basico.
+- Pruebas de regresion funcional (12 tests en verde).
+- Navegacion parcial sin recarga completa de pagina (reemplaza regiones #app-topbar, #app-alerts, #app-main).
+- Sistema de audio completo: musica de fondo, narracion de entrada, narracion por sala y locucion de victoria.
+- Glosario de glifos consultable en cualquier momento.
 
 ## Requisitos
 
@@ -87,17 +88,30 @@ app/
     inventory_service.py
     puzzle_service.py
   static/
+    audio/
+      audio_entrada.mp3      <- narracion de pantalla de inicio
+      egypt_theme.mp3        <- musica de fondo
+      gran_sala_del_archivo.mp3
+      camara_ritual.mp3
+      santuario_final.mp3
+      locucion_final.mp3     <- locucion de victoria
     css/main.css
     img/tablilla.jpeg
     js/main.js
   templates/
     base.html
+    glyphs.html
     index.html
     puzzle.html
     room.html
+    admin_dashboard.html
+    admin_editor.html
 data/
+  glyphs.json
   rooms.json
   puzzles.json
+docs/
+  CONTINUIDAD_DESARROLLO.md
 tests/
   conftest.py
   test_game.py
@@ -118,6 +132,31 @@ README.md
 3. Crear nueva regla compleja: agregar servicio en app/services.
 4. Exponer nuevas acciones: agregar ruta en app/routes/game.py.
 5. Cubrir cambios: agregar pruebas en tests/.
+
+## Sistema de audio
+
+El audio se gestiona completamente desde `app/static/js/main.js` mediante `window.egyptAudio` y las funciones `initRoomNarration` / `initVictoryLocution`. Los datos de audio se pasan al frontend via atributos HTML en `data-narration-audio` y `data-final-locution-audio`.
+
+Archivos de audio y cuando se reproducen:
+
+- `audio_entrada.mp3`: narracion introductoria en la pantalla de inicio, al primer click del usuario. Se marca como escuchada con la clave `egyptNarrationHeard` en localStorage.
+- `egypt_theme.mp3`: musica de fondo en bucle, controlable con el boton de musica del layout global.
+- `gran_sala_del_archivo.mp3`: narracion de la Gran Sala del Archivo, autoreproducida en la primera visita. Clave: `egyptRoomNarV2_archives`.
+- `camara_ritual.mp3`: narracion de la Camara Ritual. Clave: `egyptRoomNarV2_ritual`.
+- `santuario_final.mp3`: narracion del Santuario Final. Clave: `egyptRoomNarV2_sanctum`.
+- `locucion_final.mp3`: locucion de victoria, se reproduce una sola vez tras resolver el puzle final. Clave: `egyptFinalLocutionV2_<player_id>` (se repite en nuevas partidas).
+
+Para anadir narracion a una sala nueva basta con definir `narration_audio` en su entrada de `data/rooms.json`. No se requiere cambiar nada en el codigo.
+
+## Navegacion parcial (SPA ligera)
+
+La funcion `replaceAppRegions()` en `main.js` intercepta los clicks de navegacion interna y reemplaza unicamente las regiones `#app-topbar`, `#app-alerts` y `#app-main` sin recargar la pagina completa. Tras cada navegacion se ejecuta `initPage(root)` para reinicializar toda la logica JS del nuevo contenido.
+
+Las claves localStorage que marcan audio como escuchado persisten entre navegaciones y sesiones para no repetir narraciones ya oidas.
+
+## Glosario de glifos
+
+Disponible en `/glyphs`. Consolida todos los glifos definidos en `data/glyphs.json` y los hotspots de `data/puzzles.json`. Incluye campo de busqueda en tiempo real por nombre, glifo, token o significado.
 
 ## Exploracion inmersiva de salas
 
@@ -200,6 +239,8 @@ Checklist rapido de validacion:
 - POST /admin/reset reinicia la partida activa.
 - GET /admin/editor abre el editor de contenido JSON.
 - POST /admin/editor/rooms guarda data/rooms.json.
+- POST /admin/editor/puzzles guarda data/puzzles.json.- GET /admin/editor abre el editor de contenido JSON.
+- POST /admin/editor/rooms guarda data/rooms.json.
 - POST /admin/editor/puzzles guarda data/puzzles.json.
 
 ## Sistema de pistas
@@ -245,9 +286,17 @@ Cada hotspot puede incluir hint y la UI lo muestra al pasar o pulsar sobre el si
 
 ## Tablilla de jeroglificos
 
-La imagen base se encuentra en [app/static/img/tablilla.jpeg](app/static/img/tablilla.jpeg) y se referencia desde [data/rooms.json](data/rooms.json) mediante los campos:
+La imagen base se encuentra en `app/static/img/tablilla.jpeg` y se referencia desde `data/rooms.json` mediante los campos `tablet_image` y `tablet_alt`. Esto permite reutilizar la tablilla en nuevas salas sin tocar codigo de backend.
 
-- tablet_image
-- tablet_alt
+## Resetear audio en desarrollo
 
-Esto permite reutilizar la tablilla en nuevas salas sin tocar codigo de backend.
+Para forzar que las narraciones se reproduzcan de nuevo al probar, borrar las claves en las DevTools del navegador:
+DevTools > Application > Local Storage > http://127.0.0.1:5000
+
+Claves a borrar segun lo que se quiera reprobar:
+
+- `egyptNarrationHeard` — narracion de pantalla de inicio
+- `egyptRoomNarV2_archives` — narracion Gran Sala del Archivo
+- `egyptRoomNarV2_ritual` — narracion Camara Ritual
+- `egyptRoomNarV2_sanctum` — narracion Santuario Final
+- `egyptFinalLocutionV2_<player_id>` — locucion de victoria

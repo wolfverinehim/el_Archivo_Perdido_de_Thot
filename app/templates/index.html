@@ -61,50 +61,8 @@
 
 {% block extra_scripts %}
 <script>
-  (function () {
-    const audio    = document.getElementById('bg-music');
-    const btn      = document.getElementById('narration-play-btn');
-    const btnLabel = btn ? btn.querySelector('.narration-play-label') : null;
-    const btnIcon  = btn ? btn.querySelector('.narration-play-icon')  : null;
-
-    // En la página de entrada el usuario controla la narración manualmente.
-    // Cancelamos cualquier arranque automático que haya iniciado base.html.
-    if (audio) audio.pause();
-
-    function setNarrationBtn(active) {
-      if (btnIcon)  btnIcon.textContent  = active ? '⏸' : '▶';
-      if (btnLabel) btnLabel.textContent = active ? 'Pausar narración' : 'Escuchar la narración';
-    }
-
-    // Cuando el audio se pause por cualquier motivo, resetear el botón
-    if (audio) {
-      audio.addEventListener('pause', function () { setNarrationBtn(false); });
-      // Cuando acabe la narración y empiece la música, botón vuelve a ▶
-      audio.addEventListener('play', function () {
-        // Si la fuente ya es el tema musical no es narración
-        const isNarration = audio.src && audio.src.includes('audio_entrada');
-        setNarrationBtn(isNarration);
-      });
-    }
-
-    if (btn) {
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        const ea = window.egyptAudio;
-        if (!ea) return;
-        if (audio && !audio.paused) {
-          // Está reproduciendo (narración o música) → pausar
-          ea.stop();
-        } else {
-          // Siempre arranca narración desde el botón de narración
-          ea.playNarration(function () {
-            // Narración terminó → botón vuelve a ▶ (la música arranca sola)
-            setNarrationBtn(false);
-          });
-          setNarrationBtn(true);
-        }
-      });
-    }
-  })();
+  // Cancelar arranque automático de música/narración en la pantalla de inicio.
+  // El manejador del botón de narración lo gestiona initIndexNarration() en main.js.
+  (function () { var a = document.getElementById('bg-music'); if (a) a.pause(); })();
 </script>
 {% endblock %}
