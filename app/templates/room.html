@@ -25,13 +25,17 @@
             <strong>{{ room_hunt.target_glyph }}</strong>
             ({{ room_hunt.target_label }}).
           </p>
-          <p class="room-hunt-guide">Desliza el puntero sobre la escena para inspeccionar pistas y pulsa un hotspot para marcar tu elección.</p>
+          <p class="room-hunt-guide">Haz clic en el suelo para mover al explorador, o usa flechas/WASD. Al acercarte a un objeto, lo inspeccionas.</p>
         {% endif %}
 
         <div
           class="room-scene"
           data-hunt-target-token="{{ room_hunt.target_token }}"
           data-hunt-claimed="{{ 'true' if room_hunt.claimed else 'false' }}"
+          data-walkable-polygon='{{ (room.scene_navigation.walkable_polygon if room.scene_navigation and room.scene_navigation.walkable_polygon else []) | tojson }}'
+          data-scene-obstacles='{{ (room.scene_navigation.obstacles if room.scene_navigation and room.scene_navigation.obstacles else []) | tojson }}'
+          tabindex="0"
+          aria-label="Escena de sala. Usa clic o teclado para mover al explorador."
         >
           <!-- Fondo visual de la sala -->
           <img 
@@ -50,7 +54,11 @@
               class="scene-object{% if room_code == 'archives' %} scene-object--label{% endif %}"
               style="left: {{ obj.x }}%; top: {{ obj.y }}%; --obj-size: {{ obj.size }}; --obj-rotate: {{ obj.rotation }}deg; --obj-depth: {{ obj.depth }};"
               data-hunt-token="{{ obj.token }}"
+              data-hunt-object-id="{{ obj.id }}"
               data-object-hint="{{ obj.hint }}"
+              data-object-x="{{ obj.x }}"
+              data-object-y="{{ obj.y }}"
+              data-object-size="{{ obj.size }}"
               {% if room_hunt.claimed %}disabled{% endif %}
               title="{{ obj.glyph }} — {{ obj.label }}: {{ obj.name }}"
             >
@@ -67,6 +75,12 @@
           {% endfor %}
         </div>
 
+        <div class="room-avatar" aria-hidden="true">
+          <span class="room-avatar-sprite">𓀀</span>
+        </div>
+
+        </div><!-- /room-scene -->
+
         <div class="room-hunt-results">
           <p class="room-hunt-feedback" data-room-hunt-feedback aria-live="polite"></p>
 
@@ -74,7 +88,7 @@
             <form method="post" action="{{ url_for('game.claim_room_hunt', room_code=room_code) }}" class="room-hunt-claim">
               <input type="hidden" name="found_token" value="" data-room-hunt-found>
               <button type="submit" class="button secondary" disabled data-room-hunt-claim-btn>
-                ✓ Reclamar recompensa (+4% progreso)
+                ✓ Reclamar recompensa
               </button>
             </form>
           {% endif %}
@@ -90,7 +104,11 @@
     </ul>
 
     {% if room.puzzle_code %}
-      <a class="button" href="{{ url_for('game.puzzle', puzzle_code=room.puzzle_code) }}">Abrir Enigma &rarr;</a>
+      {% if not room_hunt or room_hunt.claimed %}
+        <a class="button" href="{{ url_for('game.puzzle', puzzle_code=room.puzzle_code) }}">Abrir Enigma &rarr;</a>
+      {% else %}
+        <p class="puzzle-locked">🔒 Completa la búsqueda de la sala para desbloquear el enigma.</p>
+      {% endif %}
     {% endif %}
 
     {% if room.links %}

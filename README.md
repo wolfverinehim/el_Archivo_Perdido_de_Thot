@@ -19,6 +19,8 @@ Esta base esta preparada para crecer por modulos:
 - Editor interno para actualizar salas y puzles desde navegador.
 - Sistema de pistas por puzle con penalizacion de progreso.
 - Integracion de tablilla visual como referencia jugable por sala.
+- Exploracion de salas estilo aventura grafica con personaje movible.
+- Colisiones configurables por sala para mejorar navegacion y sensacion de mundo.
 - Pruebas iniciales para proteger comportamiento basico.
 
 ## Requisitos
@@ -60,6 +62,12 @@ Abrir en navegador:
 
 ```bash
 pytest -q
+```
+
+En Windows, si pytest no esta en PATH:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
 ```
 
 ## Estructura
@@ -110,6 +118,81 @@ README.md
 3. Crear nueva regla compleja: agregar servicio en app/services.
 4. Exponer nuevas acciones: agregar ruta en app/routes/game.py.
 5. Cubrir cambios: agregar pruebas en tests/.
+
+## Exploracion inmersiva de salas
+
+La vista de sala incluye un minijuego de exploracion con movimiento del personaje:
+
+- Clic en suelo: el personaje camina al punto.
+- Clic en objeto: el personaje camina hasta posicion de interaccion y lo inspecciona.
+- Teclado: flechas o WASD para movimiento continuo.
+- Proximidad: al acercarse a un objeto, se evalua automaticamente.
+
+La recompensa de la sala se mantiene mediante el flujo de hallazgo y reclamo del glifo objetivo.
+
+## Navegacion y colisiones por datos
+
+La navegacion de cada sala se configura en data/rooms.json dentro de cada room con scene_navigation:
+
+- walkable_polygon: poligono en porcentaje (x, y) que define la zona transitable.
+- obstacles: obstaculos estaticos con x, y y radius para bloquear paso.
+
+Ejemplo:
+
+```json
+"scene_navigation": {
+  "walkable_polygon": [
+    { "x": 4, "y": 40 },
+    { "x": 96, "y": 38 },
+    { "x": 96, "y": 92 },
+    { "x": 4, "y": 92 }
+  ],
+  "obstacles": [
+    { "x": 49, "y": 62, "radius": 6.2 }
+  ]
+}
+```
+
+Ademas, los objetos del hunt aportan colision dinamica usando su posicion y tamano.
+
+## Modo debug visual de escena
+
+Existe un overlay opcional para calibrar navegacion:
+
+- Muestra el poligono transitable.
+- Muestra obstaculos estaticos.
+- Muestra zonas de colision dinamica de objetos.
+- Muestra posicion del avatar.
+
+Activacion:
+
+- Por URL: agregar ?sceneDebug=1 en una sala.
+- Persistente en navegador: localStorage.setItem("sceneDebug", "1")
+- Desactivar persistente: localStorage.removeItem("sceneDebug")
+
+## Mini guia de calibracion (poligonos y colisiones)
+
+Proceso recomendado para ajustar una sala:
+
+1. Activar debug con ?sceneDebug=1 y abrir la sala objetivo.
+2. Ajustar primero walkable_polygon para cubrir solo suelo transitable.
+3. Probar bordes con clic y teclado, verificando que no atraviesa paredes.
+4. Ajustar obstacles para bloquear columnas, altares o mobiliario fijo.
+5. Repetir pruebas de movimiento diagonal y cambios de direccion rapidos.
+
+Reglas practicas:
+
+- Mantener vertices del poligono en orden (sentido horario o antihorario) sin cruces.
+- Usar pocos vertices al inicio (6-8) y aumentar solo si hace falta precision.
+- Empezar con radios de obstaculo conservadores y subir gradualmente.
+- Evitar obstaculos pegados al borde del poligono para no crear "atascos".
+
+Checklist rapido de validacion:
+
+- El avatar alcanza todas las zonas jugables importantes.
+- El avatar no atraviesa geometria visual evidente.
+- Se puede inspeccionar cada objeto sin bloqueo injusto.
+- No hay vibraciones ni empujes extraños al caminar cerca de obstaculos.
 
 ## Panel de administracion
 

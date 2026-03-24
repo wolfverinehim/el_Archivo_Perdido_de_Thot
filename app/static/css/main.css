@@ -608,6 +608,7 @@ button,
   animation: answer-shake 0.38s ease-out;
   border-color: var(--danger);
   box-shadow: 0 0 0 2px rgba(167, 55, 47, 0.35);
+}
 
 /* ── Narrativa introductoria de sala ── */
 .narrative-intro {
@@ -1024,6 +1025,103 @@ button,
   z-index: 3;
 }
 
+.scene-debug-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.scene-debug-walkable {
+  fill: rgba(20, 180, 120, 0.2);
+  stroke: rgba(20, 220, 150, 0.95);
+  stroke-width: 0.5;
+  stroke-dasharray: 1.4 1.2;
+}
+
+.scene-debug-obstacle {
+  fill: rgba(220, 40, 40, 0.24);
+  stroke: rgba(255, 90, 90, 0.95);
+  stroke-width: 0.35;
+}
+
+.scene-debug-dynamic {
+  fill: rgba(255, 170, 20, 0.18);
+  stroke: rgba(255, 200, 75, 0.95);
+  stroke-width: 0.28;
+}
+
+.scene-debug-avatar {
+  fill: rgba(20, 155, 255, 0.95);
+  stroke: #ffffff;
+  stroke-width: 0.26;
+}
+
+.scene-debug-badge {
+  position: absolute;
+  right: 0.55rem;
+  top: 0.55rem;
+  z-index: 6;
+  pointer-events: none;
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(14, 26, 42, 0.75);
+  color: #d9efff;
+  font-size: 0.67rem;
+  letter-spacing: 0.08em;
+  font-weight: bold;
+}
+
+.room-avatar {
+  position: absolute;
+  left: 50%;
+  top: 87%;
+  z-index: 4;
+  transform: translate(-50%, -100%);
+  width: 56px;
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: filter 160ms ease;
+}
+
+.room-avatar-sprite {
+  display: inline-block;
+  font-size: 2.7rem;
+  line-height: 1;
+  color: #f6e0a7;
+  text-shadow: 0 0 6px rgba(30, 20, 0, 0.45), 0 4px 0 rgba(70, 45, 10, 0.45);
+  transform-origin: 50% 82%;
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.35));
+}
+
+.room-avatar.facing-left .room-avatar-sprite {
+  transform: scaleX(-1);
+}
+
+.room-avatar.facing-right .room-avatar-sprite {
+  transform: scaleX(1);
+}
+
+@keyframes avatar-walk-bob {
+  0%,
+  100% {
+    margin-top: 0;
+  }
+  50% {
+    margin-top: -5px;
+  }
+}
+
+.room-avatar.is-walking .room-avatar-sprite {
+  animation: avatar-walk-bob 230ms linear infinite;
+}
+
 .scene-object {
   position: absolute;
   --obj-size: 1;
@@ -1120,6 +1218,16 @@ button,
   color: #8e2a22;
 }
 
+.puzzle-locked {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: rgba(120, 80, 20, 0.08);
+  border: 1px solid rgba(120, 80, 20, 0.25);
+  border-radius: 6px;
+  color: #6b4c1e;
+  font-size: 0.92rem;
+}
+
 .room-hunt-claim {
   margin: 1.2rem 0 0;
   padding: 1rem;
@@ -1136,7 +1244,8 @@ button,
 @media (prefers-reduced-motion: reduce) {
   .room-scene-bg,
   .room-scene-light,
-  .scene-object {
+  .scene-object,
+  .room-avatar {
     transition: none;
   }
 
@@ -1165,5 +1274,4 @@ button,
 
 .admin-list p {
   margin: 0.2rem 0;
-}
 }

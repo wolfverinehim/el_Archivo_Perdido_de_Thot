@@ -167,6 +167,7 @@ def _get_or_create_room_hunt(savegame, state, room_code):
         "target_label": target_meta.get("label") or target_token,
         "objects": objects,
         "claimed": False,
+        "wrong_attempts": 0,
     }
 
     return room_hunts[room_code], True
@@ -288,6 +289,18 @@ def puzzle(puzzle_code):
         flash("Primero inicia o continúa una partida para acceder a este enigma.", "warning")
         return redirect_response
 
+    rooms = load_rooms()
+    puzzle_room_code = next(
+        (code for code, room in rooms.items() if room.get("puzzle_code") == puzzle_code),
+        None,
+    )
+    if puzzle_room_code:
+        state = read_state(savegame)
+        room_hunt = state.get("room_hunts", {}).get(puzzle_room_code)
+        if not room_hunt or not room_hunt.get("claimed"):
+            flash("Debes completar la búsqueda de la sala antes de acceder a este enigma.", "warning")
+            return redirect(url_for("game.room", room_code=puzzle_room_code))
+
     puzzle_data = get_puzzle(puzzle_code)
     if not puzzle_data:
         flash("Enigma no encontrado.", "error")
@@ -341,22 +354,44 @@ def claim_room_hunt(room_code):
         flash("Debes encontrar el glifo objetivo antes de reclamar la recompensa.", "warning")
         return redirect(url_for("game.room", room_code=room_code))
 
+    wrong_attempts = room_hunt.get("wrong_attempts", 0)
     room_hunt["claimed"] = True
     room_hunts[room_code] = room_hunt
     state["room_hunts"] = room_hunts
     write_state(savegame, state)
 
-    reward_code = f"glyph_note_{room_code}"
-    add_item(
-        savegame.player_id,
-        reward_code,
-        f"Registro de glifo: {room_hunt.get('target_label')}",
-        f"Has identificado el glifo {room_hunt.get('target_glyph')} en {room_code}.",
-    )
-    update_progress(savegame, savegame.progress_pct + 4)
-    log_event(savegame.player_id, "room_hunt_claimed", f"{room_code}:{found_token}")
-    flash("¡Búsqueda completada! Has obtenido un registro de glifo y +4% de progreso.", "success")
+    if wrong_attempts == 0:
+        add_item(
+            savegame.player_id,
+            f"glyph_insight_{room_code}",
+            f"Visión de glifo: {room_hunt.get('target_label')}",
+            f"Identificaste el glifo {room_hunt.get('target_glyph')} a la primera en {room_code}.",
+        )
+        update_progress(savegame, savegame.progress_pct + 6)
+        log_event(savegame.player_id, "room_hunt_first_try", f"{room_code}:{found_token}")
+        flash("¡Búsqueda perfecta! Encontraste el glifo a la primera. +6% de progreso y visión de glifo desbloqueada.", "success")
+    else:
+        update_progress(savegame, savegame.progress_pct + 2)
+        log_event(savegame.player_id, "room_hunt_claimed", f"{room_code}:{found_token}")
+        flash("Búsqueda completada. El enigma está desbloqueado. (+2% de progreso)", "info")
+
     return redirect(url_for("game.room", room_code=room_code))
+
+
+@game_bp.post("/room/<room_code>/hunt-wrong")
+def record_hunt_wrong(room_code):
+    savegame, redirect_response = _ensure_savegame_or_redirect()
+    if redirect_response:
+        return ("", 403)
+
+    state = read_state(savegame)
+    room_hunts = state.get("room_hunts", {})
+    room_hunt = room_hunts.get(room_code)
+    if room_hunt and not room_hunt.get("claimed"):
+        room_hunt["wrong_attempts"] = room_hunt.get("wrong_attempts", 0) + 1
+        write_state(savegame, state)
+
+    return ("", 204)
 
 
 @game_bp.post("/puzzle/<puzzle_code>/submit")

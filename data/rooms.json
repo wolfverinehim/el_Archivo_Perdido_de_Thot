@@ -5,6 +5,22 @@
     "description": "La cámara principal alberga la tablilla original de Thot. Sus jeroglíficos forman la primera lección: aprende el alfabeto de los dioses antes de adentrarte más.",
     "tablet_image": "img/tablilla.jpeg",
     "tablet_alt": "Tablilla de jeroglíficos con grupos de símbolos que sirven de referencia.",
+    "scene_navigation": {
+      "walkable_polygon": [
+        { "x": 4, "y": 40 },
+        { "x": 20, "y": 34 },
+        { "x": 48, "y": 31 },
+        { "x": 74, "y": 33 },
+        { "x": 96, "y": 38 },
+        { "x": 96, "y": 92 },
+        { "x": 4, "y": 92 }
+      ],
+      "obstacles": [
+        { "x": 18, "y": 66, "radius": 4.8 },
+        { "x": 49, "y": 62, "radius": 6.2 },
+        { "x": 80, "y": 69, "radius": 5.1 }
+      ]
+    },
     "clues": [
       "Estudia cada símbolo de la tablilla: cada glifo tiene un nombre y un significado.",
       "La primera secuencia sagrada comienza con el signo de la vida.",
@@ -24,6 +40,22 @@
     "description": "Los obeliscos de la Cámara Ritual reflejan la secuencia solar que debes recitar. Aquí no hay guía: el conocimiento que has adquirido debe bastarte.",
     "tablet_image": "img/tablilla.jpeg",
     "tablet_alt": "Una lectura atenta de la tablilla ayuda a resolver el orden ritual.",
+    "scene_navigation": {
+      "walkable_polygon": [
+        { "x": 4, "y": 44 },
+        { "x": 21, "y": 38 },
+        { "x": 49, "y": 34 },
+        { "x": 77, "y": 35 },
+        { "x": 96, "y": 41 },
+        { "x": 96, "y": 92 },
+        { "x": 4, "y": 92 }
+      ],
+      "obstacles": [
+        { "x": 24, "y": 70, "radius": 4.9 },
+        { "x": 54, "y": 66, "radius": 6.5 },
+        { "x": 80, "y": 72, "radius": 5.3 }
+      ]
+    },
     "clues": [
       "Esta sala no perdona los errores: recuerda lo que aprendiste en el Archivo.",
       "El disco solar es el primer símbolo de todo rito de invocación.",
@@ -47,6 +79,22 @@
     "description": "El altar final aguarda la secuencia definitiva. Combina lo aprendido en el Archivo y en la Cámara Ritual para componer el mensaje eterno de Thot.",
     "tablet_image": "img/tablilla.jpeg",
     "tablet_alt": "Revisión final de la tablilla antes de componer la secuencia de victoria.",
+    "scene_navigation": {
+      "walkable_polygon": [
+        { "x": 4, "y": 46 },
+        { "x": 24, "y": 40 },
+        { "x": 53, "y": 36 },
+        { "x": 80, "y": 38 },
+        { "x": 96, "y": 43 },
+        { "x": 96, "y": 92 },
+        { "x": 4, "y": 92 }
+      ],
+      "obstacles": [
+        { "x": 22, "y": 69, "radius": 5.6 },
+        { "x": 57, "y": 67, "radius": 7.1 },
+        { "x": 84, "y": 73, "radius": 5.5 }
+      ]
+    },
     "clues": [
       "Cuatro símbolos forman el mensaje final. Están todos en la tablilla.",
       "Piensa en los elementos que permanecen más allá de la vida y del rito.",
